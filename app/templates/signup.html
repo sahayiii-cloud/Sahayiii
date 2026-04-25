@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Join Sahayi</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
+<link rel="stylesheet" href="/static/css/signup.css">
+<script src="/static/js/signup.js" defer></script>
+</head>
+
+<body>
+
+<!-- 🔧 TOP LEFT MAINTAIN -->
+<div id="maintainAnim"></div>
+
+<div class="wrapper">
+
+  <!-- BRAND -->
+  <div class="brand">
+    <h1>Sahayi</h1>
+
+    <!-- 🏠 HOME REPAIR WALKING -->
+    <div class="worker-track">
+      <div id="homeRepairAnim"></div>
+    </div>
+
+    <p>Trusted local services</p>
+  </div>
+
+  <!-- CARD -->
+  <div class="card-wrap">
+
+    <h2>Create your account</h2>
+    <p class="lead">Phone-first signup. We’ll verify you with an OTP.</p>
+
+    <!-- Step 1 -->
+    <div id="step-phone" class="step active">
+      <label class="form-label">Phone number</label>
+      <div class="input-group mb-2">
+        <span class="input-group-text">+91</span>
+        <input id="phoneInput" class="form-control" maxlength="10" placeholder="10-digit mobile">
+      </div>
+      <div id="phoneError" class="text-danger" style="min-height:22px"></div>
+      <button id="sendOtpBtn" class="btn btn-primary w-100">Send OTP</button>
+    </div>
+
+    <!-- Step 2 -->
+    <div id="step-otp" class="step">
+      <p class="muted">Enter OTP sent to <strong id="displayPhone"></strong></p>
+      <div class="otp-boxes">
+        <input maxlength="1" class="otp-input">
+        <input maxlength="1" class="otp-input">
+        <input maxlength="1" class="otp-input">
+        <input maxlength="1" class="otp-input">
+        <input maxlength="1" class="otp-input">
+        <input maxlength="1" class="otp-input">
+      </div>
+      <div id="otpError" class="text-danger" style="min-height:22px"></div>
+      <div class="d-flex gap-2">
+        <button id="resendBtn" class="btn btn-outline-secondary flex-fill">Resend</button>
+        <button id="verifyOtpBtn" class="btn btn-primary flex-fill">Verify</button>
+      </div>
+      <div class="small-link">
+        <button id="editPhone">Change phone</button>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div id="step-credentials" class="step">
+      <label class="form-label">Your details</label>
+      <input id="nameInput" class="form-control mb-2" placeholder="Full name">
+      <input id="passwordInput" type="password" class="form-control mb-2" placeholder="Password (min 6 chars)">
+      <div id="credError" class="text-danger" style="min-height:22px"></div>
+      <button id="createAccountBtn" class="btn btn-primary w-100">Create account</button>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    By continuing you agree to our Terms & Privacy
+  </div>
+
+</div>
+
+</body>
+</html>

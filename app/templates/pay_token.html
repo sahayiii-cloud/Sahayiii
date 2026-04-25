@@ -1,0 +1,283 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pay Tokens</title>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="/static/js/theme.js" defer></script>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; padding: 24px; }
+    .card { max-width: 520px; margin: auto; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; }
+    .row { display: flex; justify-content: space-between; margin: 8px 0; }
+    .row-muted { display: flex; justify-content: space-between; margin: 4px 0; font-size: 14px; color: #6b7280; }
+    .total-row { display: flex; justify-content: space-between; margin: 12px 0; font-weight: 600; }
+    .btn { display: inline-block; padding: 12px 16px; border-radius: 10px; border: none; cursor: pointer; }
+    .btn-primary { background: #2563eb; color: white; }
+    .muted { color: #6b7280; font-size: 14px; }
+    .divider { border-top: 1px solid #e5e7eb; margin: 10px 0; }
+
+    /* ================= DARK MODE ================= */
+    [data-theme="dark"] body{
+      background: linear-gradient(180deg, #020617, #020617);
+      color: #f9fafb;
+    }
+
+    /* Main Card */
+    [data-theme="dark"] .card{
+      background: rgba(2,6,23,.95);
+      border-color: #1e293b;
+      box-shadow: 0 25px 60px rgba(0,0,0,.6);
+    }
+
+    /* Text */
+    [data-theme="dark"] h2{
+      color: #f9fafb;
+    }
+
+    [data-theme="dark"] .row span,
+    [data-theme="dark"] .row strong{
+      color: #e5e7eb;
+    }
+
+    [data-theme="dark"] .row-muted{
+      color: #94a3b8;
+    }
+
+    [data-theme="dark"] .muted{
+      color: #94a3b8;
+    }
+
+    /* Divider */
+    [data-theme="dark"] .divider{
+      border-color: #1e293b;
+    }
+
+    /* Button */
+    [data-theme="dark"] .btn-primary{
+      background: linear-gradient(135deg,#2563eb,#38bdf8);
+      border: none;
+    }
+
+    [data-theme="dark"] .btn-primary:hover{
+      opacity: .9;
+    }
+
+    [data-theme="dark"] .btn-primary:disabled{
+      background: #334155;
+      color: #94a3b8;
+    }
+    /* ================= SUCCESS MODAL ================= */
+
+    .success-overlay{
+      position: fixed;
+      inset: 0;
+      background: rgba(2,6,23,.75);
+      backdrop-filter: blur(6px);
+      z-index: 9999;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .success-card{
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 28px 26px;
+      width: 90%;
+      max-width: 360px;
+      text-align: center;
+
+      box-shadow: 0 25px 60px rgba(0,0,0,.35);
+      animation: popIn .25s ease;
+    }
+
+    .success-icon{
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    .success-card h3{
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .success-card p{
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    /* Dark Mode */
+    [data-theme="dark"] .success-card{
+      background: #020617;
+      border: 1px solid #1e293b;
+      color: #f9fafb;
+    }
+
+    [data-theme="dark"] .success-card p{
+      color: #94a3b8;
+    }
+
+    /* Animation */
+    @keyframes popIn{
+      from{ transform: scale(.9); opacity:0; }
+      to{ transform: scale(1); opacity:1; }
+    }
+    /* Hide success modal by default */
+    .success-overlay.hidden{
+      display: none;
+    }
+
+
+
+  </style>
+</head>
+<body>
+
+<!-- Payment Success Modal -->
+<div id="successOverlay" class="success-overlay hidden">
+  <div class="success-card">
+    <div class="success-icon">✅</div>
+    <h3>Payment Successful</h3>
+    <p>Your payment has been completed successfully.</p>
+
+    <button id="successBtn" class="btn btn-primary mt-3">
+      Continue
+    </button>
+  </div>
+</div>
+
+  <div class="card">
+    <h2>Confirm Payment</h2>
+
+    <div class="row">
+      <span>Booking #</span>
+      <strong>{{ booking.id }}</strong>
+    </div>
+
+    <div class="row">
+      <span>Worker</span>
+      <strong>{{ booking.worker.name if booking.worker else "-" }}</strong>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Split-up section -->
+    <div class="row-muted">
+      <span>Job amount</span>
+      <span>₹{{ base_amount }}</span>
+    </div>
+    <div class="row-muted">
+      <span>Platform commission (5% from job giver)</span>
+      <span>₹{{ giver_commission }}</span>
+    </div>
+
+    <div class="total-row">
+      <span>Total to pay</span>
+      <span>₹{{ total_payable }}</span>
+    </div>
+
+    {% if time_left and time_left > 0 %}
+      <p class="muted">Expires in <span id="countdown"></span></p>
+    {% endif %}
+
+    <button class="btn btn-primary" id="payBtn">
+      Pay ₹{{ total_payable }} with Razorpay
+    </button>
+
+    <p class="muted" style="margin-top:10px">
+      Payments are processed securely. On success, chat will unlock automatically.
+    </p>
+  </div>
+
+  <script>
+  const token = "{{ booking.token }}";
+  const payBtn = document.getElementById("payBtn");
+
+  payBtn.addEventListener("click", async () => {
+    payBtn.disabled = true;
+    try {
+      // 1) Ask server to create/return an order for this booking token
+      const res = await fetch(`/razorpay/create_order/${token}`, {
+        method: "POST",
+        credentials: "same-origin"
+      });
+      if (!res.ok) {
+        const t = await res.text();
+        alert("Could not create order: " + t);
+        payBtn.disabled = false;
+        return;
+      }
+      const data = await res.json();
+
+      // 2) Open Razorpay Checkout
+      const rzp = new Razorpay({
+        key: data.key_id,
+        amount: data.amount,              // in paise (already includes 5% giver commission)
+        currency: data.currency || "INR",
+        name: "Sahayi",
+        description: "Booking payment",
+        order_id: data.order_id,
+        prefill: {
+          name: "{{ current_user.name or '' }}",
+          email: "{{ current_user.email or '' }}"
+        },
+        handler: async function (resp) {
+          // 3) Send details to backend for verification and DB updates
+          const verifyRes = await fetch("/razorpay/verify_payment", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "same-origin",
+            body: JSON.stringify({
+              token: token,
+              razorpay_payment_id: resp.razorpay_payment_id,
+              razorpay_order_id: resp.razorpay_order_id,
+              razorpay_signature: resp.razorpay_signature
+            })
+          });
+          const v = await verifyRes.json();
+          if (verifyRes.ok && v.success) {
+
+            // Show custom success popup
+            const overlay = document.getElementById("successOverlay");
+            const btn = document.getElementById("successBtn");
+
+            overlay.classList.remove("hidden");
+
+            btn.onclick = () => {
+              window.location.replace("/welcome");
+            };
+
+          } else {
+            alert("Payment verification failed: " + (v.detail || v.message || "Unknown error"));
+            payBtn.disabled = false;
+          }
+        }
+      });
+      rzp.open();
+    } catch (e) {
+      console.error(e);
+      alert("Something went wrong while starting payment.");
+      payBtn.disabled = false;
+    }
+  });
+
+  // Optional: countdown
+  {% if time_left and time_left > 0 %}
+  (function(){
+    let left = {{ time_left | int }};
+    const el = document.getElementById("countdown");
+    const tick = () => {
+      if (left <= 0) { location.reload(); return; }
+      const m = Math.floor(left/60), s = left%60;
+      el.textContent = `${m}m ${s}s`;
+      left--;
+    };
+    tick();
+    setInterval(tick, 1000);
+  })();
+  {% endif %}
+  </script>
+</body>
+</html>

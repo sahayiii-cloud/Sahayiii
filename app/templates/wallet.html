@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Wallet</title>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="/static/js/theme.js" defer></script>
+  <link rel="stylesheet" href="/static/css/Wallet.css">
+  <script src="/static/js/Wallet.js" defer></script>
+
+</head>
+<body>
+  <div class="wallet-shell">
+    <div class="wallet-header">
+      <div class="wallet-title">
+        <h1><span class="emoji">💳</span> Wallet</h1>
+        <p>Top up your Sahayi balance and track every transaction in one place.</p>
+      </div>
+
+      <div class="integrity-pill {{ 'ok' if integrity_ok else 'fail' }}">
+        {% if integrity_ok %}
+          <span>✅ Integrity OK</span>
+        {% else %}
+          <span>⚠️ Integrity check failed</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="wallet-card">
+      <!-- Top row: balance + actions -->
+      <div class="wallet-top-row">
+        <!-- Balance card -->
+        <div class="balance-card">
+          <div>
+            <div class="balance-label">
+              <span>Available balance</span>
+            </div>
+            <div class="balance-value">
+              ₹{{ '%.2f' % ((balance or 0)|float) }}
+            </div>
+            <div class="balance-sub">
+              Use this for bookings, tips, and extra-time payments inside Sahayi.
+            </div>
+          </div>
+
+          <div class="quick-badges">
+            <span class="quick-badge">Instant top-up via Razorpay</span>
+            <span class="quick-badge">Secure ledger</span>
+          </div>
+        </div>
+
+        <!-- Actions: Add & Withdraw -->
+        <div class="actions-column">
+          <!-- Add money -->
+          <div class="action-card">
+            <h3>➕ Add money</h3>
+            <p>Recharge your wallet using UPI / cards through Razorpay.</p>
+            <div class="field-row">
+              <input id="amt" type="number" min="1" step="1" placeholder="Amount (₹)" />
+              <button class="btn btn-primary" id="addBtn" {% if not has_razor %}disabled{% endif %}>
+                ⚡ Add
+              </button>
+            </div>
+            {% if not has_razor %}
+              <div class="help-text danger">
+                Razorpay keys are not configured. Please contact support.
+              </div>
+            {% else %}
+              <div class="help-text">
+                Money is credited instantly after successful payment.
+              </div>
+            {% endif %}
+          </div>
+
+          <!-- Withdraw -->
+          <div class="action-card">
+            <h3>⬇ Withdraw</h3>
+            <p>Request payout to your bank account.</p>
+            <div class="field-row">
+              <input id="wd" type="number" min="1" step="1" placeholder="Amount (₹)" />
+              <button class="btn btn-ghost" id="wdBtn">
+                💸 Request
+              </button>
+            </div>
+            <div class="help-text">
+              We’ll review and send to your saved bank details
+              (<strong>Profile → Bank details</strong>).
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transactions -->
+      <div class="tx-section">
+        <div class="tx-header">
+          <h3>Recent transactions</h3>
+          <span class="tx-sub">Latest activity in your wallet</span>
+        </div>
+
+        <div class="tx-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>When</th>
+                <th>Type</th>
+                <th style="text-align:right;">Amount</th>
+                <th>Ref</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for t in txns %}
+              <tr>
+                <td>{{ t.created_at.strftime("%Y-%m-%d %H:%M") }}</td>
+                <td><span class="tx-kind">{{ t.kind }}</span></td>
+                <td class="tx-amount">{{ '₹%.2f' % (t.amount or 0) }}</td>
+                <td class="tx-ref">
+                  {{ t.reference or "" }}
+
+                  {# For booking_payment_credit show full split: paid, commission, net #}
+                  {% if t.kind == 'booking_payment_credit' and t.base_amount %}
+                    <div class="tx-meta">
+                      <span>Paid: ₹{{ '%.2f' % t.base_amount }}</span>
+                      {% if t.worker_commission is not none %}
+                        <span>Worker commission: ₹{{ '%.2f' % t.worker_commission }}</span>
+                      {% endif %}
+                      {% if t.giver_commission is not none %}
+                        <span>Job giver commission: ₹{{ '%.2f' % t.giver_commission }}</span>
+                      {% endif %}
+                      <span>Net received: ₹{{ '%.2f' % (t.amount or 0) }}</span>
+                    </div>
+                  {% endif %}
+                </td>
+              </tr>
+            {% else %}
+              <tr>
+                <td colspan="4" class="tx-empty">
+                  No transactions yet. Top up your wallet to get started.
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

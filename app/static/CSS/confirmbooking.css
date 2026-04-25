@@ -1,0 +1,447 @@
+ body {
+            background:
+              radial-gradient(circle at 0% 0%, rgba(13,110,253,0.18) 0, transparent 45%),
+              radial-gradient(circle at 90% 100%, rgba(25,135,84,0.14) 0, transparent 50%),
+              #f5f7fb;
+            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .form-container {
+            background: #fff;
+            padding: 28px 30px 26px;
+            max-width: 680px;
+            margin: 40px auto;
+            border-radius: 18px;
+            box-shadow:
+              0 18px 40px rgba(15, 23, 42, 0.08),
+              0 0 0 1px rgba(148, 163, 184, 0.12);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(22px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        h3 {
+            color: #0d6efd;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+        }
+
+        .header-icon-circle {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 25% 20%, #fff 0, #e0efff 50%, #cfe0ff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+        }
+
+        .section-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #6c757d;
+        }
+
+        .skill-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: #e7f1ff;
+            color: #0d6efd;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .skill-chip small {
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #212529;
+        }
+
+        .form-control,
+        .form-control-plaintext {
+            border-radius: 12px;
+        }
+
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
+        }
+
+        /* Modern duration / quantity card */
+        .metric-section {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 14px 16px 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.03);
+        }
+
+        .metric-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: #e0f2fe;
+            color: #0d6efd;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+
+        .metric-chip span {
+            font-size: 14px;
+        }
+
+        .metric-sub {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .time-input-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .modern-input {
+            position: relative;
+            flex: 1;
+        }
+
+        .modern-input label {
+            position: absolute;
+            left: 12px;
+            top: 6px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #9ca3af;
+        }
+
+        .modern-input input {
+            padding-top: 22px;
+            padding-bottom: 10px;
+            padding-left: 12px;
+            padding-right: 12px;
+            border-radius: 12px;
+            border: 1px solid #d1d5db;
+            font-size: 15px;
+        }
+
+        .modern-input input:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.1rem rgba(13, 110, 253, 0.25);
+        }
+
+        .modern-input small {
+            font-size: 11px;
+            color: #9ca3af;
+        }
+
+        .btn-success {
+            font-size: 17px;
+            padding: 11px 14px;
+            border-radius: 12px;
+            transition: all 0.18s;
+            font-weight: 600;
+            box-shadow: 0 8px 18px rgba(25, 135, 84, 0.25);
+        }
+
+        .btn-success:hover {
+            background-color: #198754;
+            box-shadow: 0 12px 24px rgba(25, 135, 84, 0.35);
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 576px) {
+            .form-container {
+                padding: 22px 18px;
+                margin-top: 16px;
+            }
+
+            .time-input-group {
+                flex-direction: column;
+            }
+        }
+
+        /* Animation for popup */
+        #popupCard {
+            opacity: 0;
+            transform: translateY(100%);
+            transition: all 0.4s ease-in-out;
+        }
+
+        #popupCard.show {
+            display: block !important;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Modern duration controls */
+        .time-input-group {
+          display: flex;
+          gap: 12px;
+          margin-top: 12px;
+        }
+
+        .duration-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 4px 11px;
+          border-radius: 999px;
+          background: linear-gradient(135deg, #e0f2fe, #eff6ff);
+          color: #0d6efd;
+          font-size: 11px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.12em;
+        }
+
+        .duration-pill span {
+          font-size: 14px;
+        }
+
+        .modern-input {
+          position: relative;
+          flex: 1;
+        }
+
+        .modern-input label {
+          position: absolute;
+          left: 14px;
+          top: 6px;
+          font-size: 11px;
+          text-transform: uppercase;
+          letter-spacing: 0.12em;
+          color: #9ca3af;
+        }
+
+        /* plus/minus group */
+        .step-group {
+          display: flex;
+          align-items: center;
+          background: #ffffff;
+          border-radius: 12px;
+          border: 1px solid #d1d5db;
+          padding: 0 4px;
+          transition: box-shadow 0.15s ease, border-color 0.15s ease;
+          margin-top: 18px; /* space below label */
+        }
+
+        .step-group:focus-within {
+          border-color: #0d6efd;
+          box-shadow: 0 0 0 0.1rem rgba(13,110,253,0.25);
+        }
+
+        .step-btn {
+          border: none;
+          background: transparent;
+          width: 32px;
+          height: 32px;
+          border-radius: 999px;
+          font-size: 18px;
+          line-height: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+        }
+
+        .step-btn:hover {
+          background: #eff6ff;
+        }
+
+        .step-input {
+          border: none !important;
+          box-shadow: none !important;
+          text-align: center;
+          width: 100%;
+          font-size: 16px;
+          padding: 6px 4px;
+        }
+
+        .step-input:focus {
+          outline: none;
+        }
+
+        .duration-total {
+          margin-top: 8px;
+          font-size: 13px;
+          font-weight: 600;
+          color: #111827;
+        }
+
+        .duration-total span {
+          color: #0d6efd;
+        }
+
+        /* ============================
+           DARK MODE - CONFIRM BOOKING
+           ============================ */
+
+        html[data-theme="dark"] body {
+          background: radial-gradient(circle at top left, #020617, #020617 40%, #000814 100%) !important;
+          color: #f8fafc !important;
+        }
+
+        /* Main card */
+        html[data-theme="dark"] .form-container {
+          background: #0b1220 !important;
+          border: 1px solid #1e293b !important;
+          box-shadow: 0 20px 50px rgba(0,0,0,0.6) !important;
+        }
+
+        /* Headings */
+        html[data-theme="dark"] h3 {
+          color: #38bdf8 !important;
+        }
+
+        /* Labels */
+        html[data-theme="dark"] .form-label,
+        html[data-theme="dark"] .section-label {
+          color: #cbd5e1 !important;
+        }
+
+        /* Muted text */
+        html[data-theme="dark"] .text-muted,
+        html[data-theme="dark"] small {
+          color: #94a3b8 !important;
+        }
+
+        /* Skill chip */
+        html[data-theme="dark"] .skill-chip {
+          background: #020617 !important;
+          color: #38bdf8 !important;
+          border: 1px solid #1e293b !important;
+        }
+
+        html[data-theme="dark"] .skill-chip small {
+          color: #cbd5e1 !important;
+        }
+
+        /* Inputs / textarea */
+        html[data-theme="dark"] .form-control,
+        html[data-theme="dark"] textarea,
+        html[data-theme="dark"] input {
+          background: #020617 !important;
+          color: #f8fafc !important;
+          border: 1px solid #1e293b !important;
+        }
+
+        html[data-theme="dark"] .form-control::placeholder {
+          color: #64748b !important;
+        }
+
+        /* Metric sections */
+        html[data-theme="dark"] .metric-section {
+          background: #020617 !important;
+          border: 1px solid #1e293b !important;
+        }
+
+        /* Chips */
+        html[data-theme="dark"] .metric-chip,
+        html[data-theme="dark"] .duration-pill {
+          background: #020617 !important;
+          color: #38bdf8 !important;
+          border: 1px solid #1e293b !important;
+        }
+
+        /* Duration total */
+        html[data-theme="dark"] .duration-total {
+          color: #e5e7eb !important;
+        }
+
+        html[data-theme="dark"] .duration-total span {
+          color: #38bdf8 !important;
+        }
+
+        /* Buttons */
+        html[data-theme="dark"] .btn-success {
+          background: #16a34a !important;
+          border-color: #16a34a !important;
+        }
+
+        html[data-theme="dark"] .btn-success:hover {
+          background: #22c55e !important;
+        }
+
+        /* Popup card */
+        html[data-theme="dark"] #popupCard .card-body {
+          background: #7f1d1d !important;
+          color: #f8fafc !important;
+        }
+
+        /* Negotiation popup */
+        html[data-theme="dark"] #neg-overlay > div {
+          background: #0b1220 !important;
+          border: 1px solid #1e293b !important;
+          color: #f8fafc !important;
+        }
+
+        html[data-theme="dark"] #neg-overlay input {
+          background: #020617 !important;
+          color: #f8fafc !important;
+          border: 1px solid #1e293b !important;
+        }
+
+        /* ============================
+           DARK MODE - DATE PICKER ICON (FIXED)
+           ============================ */
+
+        html[data-theme="dark"] input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+        html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator,
+        html[data-theme="dark"] input[type="time"]::-webkit-calendar-picker-indicator {
+
+          filter: invert(1) brightness(1.6) contrast(1.2);
+          opacity: 1;
+          cursor: pointer;
+        }
+        /* ============================
+           DARK MODE - CUSTOM CALENDAR ICON
+           ============================ */
+
+        /* Hide default icon */
+        html[data-theme="dark"] input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+          opacity: 0;
+          cursor: pointer;
+          position: relative;
+          z-index: 2;
+        }
+
+        /* Wrapper */
+        .calendar-wrap {
+          position: relative;
+        }
+
+        /* Custom icon */
+        .calendar-wrap::after {
+          content: "📅";
+          position: absolute;
+          right: 14px;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 18px;
+          pointer-events: none;
+          color: #f8fafc;
+        }
+
+

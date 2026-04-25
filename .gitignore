@@ -1,0 +1,18 @@
+# Virtual env
+.venv/
+
+# Secrets
+.env
+app/.env
+
+# Runtime data
+uploads/
+storage/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Logs
+*.log
+app/.env 

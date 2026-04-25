@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome to Job Connect</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/ProvideJob.css">
+  <script src="/static/js/ProvideJob.js" defer></script>
+
+  <style>
+
+
+    </style>
+
+</head>
+
+<!-- Location Box -->
+<div class="location-box" style="position:fixed; top:10px; left:10px; z-index:1050;
+     background:#d7f0e3; padding:8px 10px; border-radius:10px; box-shadow:0 0 5px rgba(0,0,0,0.2);
+     display:flex; flex-direction:column; gap:6px; max-width:280px; font-size:13px;">
+
+  <!-- Current location -->
+  <div style="display:flex; align-items:center; gap:4px; flex-wrap:wrap;">
+    📍 <b>Current Location:</b> <span id="location-display">Fetching...</span>
+  </div>
+
+    <div id="location-error" style="display:none; background:#fff3f3;
+       color:#b00020; font-size:12px; padding:6px 8px; border-radius:6px;
+       margin-top:4px; border:1px solid #f5c2c7;">
+    ⚠️ Location unavailable. Please enable GPS/Location Services.
+    <br>
+    <button onclick="retryLocation()"
+            class="btn btn-sm btn-outline-danger"
+            style="margin-top:4px; font-size:12px; padding:2px 6px;">
+      🔄 Retry Location
+    </button>
+  </div>
+
+  <!-- Controls Row (Change Location first, Save below) -->
+  <div style="display:flex; flex-direction:column; gap:4px; flex-wrap:wrap;">
+    <button id="change-location-btn" class="btn btn-outline-secondary btn-sm">🔄 Change Location</button>
+    <button id="show-save-location" class="btn btn-outline-primary btn-sm">💾 Save Location</button>
+
+    {% if current_user.is_worker %}
+    <div class="form-check form-switch mb-0" style="margin-top:4px;">
+      <input class="form-check-input" type="checkbox" id="worker-status-toggle"
+        {% if is_online %}checked{% endif %}>
+      <label class="form-check-label mb-0" id="worker-status-label" for="worker-status-toggle">
+        <span style="color:{{ 'green' if is_online else 'red' }};">
+          {{ "🟢 Online" if is_online else "🔴 Offline" }}
+        </span>
+      </label>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Hidden Save form -->
+  <div id="save-location-form" style="display:none; margin-top:6px;">
+    <input type="text" id="place-name-input"
+           class="form-control form-control-sm"
+           placeholder="Enter place name"
+           style="max-width:180px; display:inline-block;">
+    <button id="save-location-btn" class="btn btn-success btn-sm">Save</button>
+    <span id="save-location-msg" style="margin-left:6px; color:red;"></span>
+  </div>
+</div>
+
+
+<!-- Custom Change Location Popup (Center of page) -->
+<div id="change-location-box" style="display:none;
+     position:fixed; top:50%; left:50%; transform:translate(-50%, -50%);
+     background:#ffffff; padding:14px; border-radius:10px;
+     box-shadow:0 0 15px rgba(0,0,0,0.3); z-index:2000;
+     max-height:300px; overflow-y:auto; min-width:240px;">
+
+  <h5 style="margin-bottom:8px;">Select Saved Location</h5>
+
+  <!-- Live Location -->
+  <div style="margin-bottom:6px;">
+    <button id="use-live-location" class="btn btn-sm btn-primary">📡 Use Live Location</button>
+  </div>
+
+  <!-- Saved Locations -->
+  <div id="saved-locations-list" style="margin-bottom:6px;"></div>
+
+  <!-- Close -->
+  <button id="close-change-location" class="btn btn-sm btn-outline-danger">
+    Close
+  </button>
+</div>
+
+
+<!-- Top-right action buttons -->
+<div style="position: fixed; top: 10px; right: 10px; z-index: 1080; display: flex; gap: 10px; align-items: center;">
+
+  <!-- Notification button -->
+  <a href="/notifications" class="btn btn-light btn-sm"
+     style="border-radius:20px; box-shadow:0 0 5px rgba(0,0,0,0.2);">
+    🔔 {{ unread_count }}
+  </a>
+
+  <!-- Profile button with dropdown -->
+    <div style="position: relative;">
+      <button id="profile-btn" class="btn btn-light btn-sm"
+              style="border-radius:20px; box-shadow:0 0 5px rgba(0,0,0,0.2);">
+        👤 Profile
+      </button>
+
+      <!-- Dropdown box -->
+      <div id="profile-box" style="display:none; position:absolute; right:0; margin-top:5px;
+           background:white; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.2);
+           width:220px; padding:10px; z-index:2000;">
+        <div class="profile-option"><a href="/profile">⚙️ Profile Settings</a></div>
+        <div class="profile-option"><a href="/wallet">💳 Wallet</a></div>
+        <div class="profile-option"><a href="/payment_history">📂 History</a></div>
+        <div class="profile-option"><a href="/agreement">📜 Agreement</a></div>
+        <div class="profile-option"><a href="/support">❓ Help & Support</a></div>
+        <div class="profile-option"><a href="/logout">🚪 Logout</a></div>
+      </div>
+    </div>
+
+</div>
+
+<!-- Tokens info stays below -->
+<div class="token-box">
+  🪙 <b>Tokens:</b> {{ current_user.tokens }}
+</div>
+
+
+  <div class="hero">
+    <h1>Welcome, {{ current_user.name }} 👋</h1>
+    <p>Your gateway to finding and offering jobs nearby</p>
+    <div id="hero-actions">
+        <div class="card-options">
+      <div class="option-card"><a href='/provide_job'>🛠️ Get a Sahayi</a></div>
+      <div class="option-card"><a href='/seek_job'>🤝 Be a Sahayi</a></div>
+     </div>
+    </div>
+  </div>
+
+  <!-- Chat Popup -->
+  <div id="chat-direction-panel" style="display:none;">
+    <div id="chat-content">
+      <h5>Booking Found</h5>
+      <p><strong>Job Partner:</strong> <span id="partner-name">Loading...</span></p>
+
+      <div id="otp-display" style="display: none;">
+        <label><strong>🔑 OTP for Sahayi:</strong></label>
+        <div id="generated-otp" style="font-size: 24px; font-weight: bold; color: #007bff;"></div>
+      </div>
+
+     <!-- Worker "Reached Location" slider -->
+    <div id="reached-location-section" style="margin-top:15px; display:none; text-align:center;">
+      <div style="position: relative; width: 100%; max-width: 320px; height: 60px; margin: auto; background: #e0e0e0; border-radius: 40px; box-shadow: inset 0 4px 6px rgba(0,0,0,0.2); overflow: hidden;">
+
+        <!-- Label inside the track -->
+        <span style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+                     font-weight: bold; color: #555; font-size: 16px; pointer-events: none;">
+          📍 Confirm Arrival
+        </span>
+
+        <!-- Actual slider -->
+        <input type="range" min="0" max="100" value="0" id="reached-slider"
+               style="width: 100%; height: 60px; -webkit-appearance: none; background: transparent; cursor: grab;">
+
+      </div>
+      <div id="reached-msg" style="font-size:14px; margin-top:8px; color:red;"></div>
+    </div>
+
+
+      <div id="otp-input-section" style="display: none; margin-top: 10px;">
+        <label for="otp-input"><strong>🔐 Enter OTP from Job Giver:</strong></label>
+        <input type="text" id="otp-input" class="form-control mt-1" placeholder="Enter OTP here">
+        <button id="submit-otp" class="btn btn-primary btn-sm mt-2">Verify OTP</button>
+        <div id="otp-status" class="mt-2" style="font-weight: bold;"></div>
+      </div>
+      <!-- Final OTP Display for Worker -->
+      <div id="final-otp-display" style="display: none; margin-top: 10px;">
+        <label><strong>🎯 Final OTP (show to Job Giver):</strong></label>
+        <div id="final-otp-code" style="font-size: 22px; font-weight: bold; color: #28a745;"></div>
+      </div>
+
+      <!-- Final OTP Input for Giver -->
+      <div id="final-otp-input-section" style="display: none; margin-top: 10px;">
+        <label><strong>✅ Enter Final OTP from Worker:</strong></label>
+        <input type="text" id="final-otp-input" class="form-control mt-1" placeholder="Enter final OTP here">
+        <button id="submit-final-otp" class="btn btn-success btn-sm mt-2">Verify Final OTP</button>
+        <div id="final-otp-status" class="mt-2" style="font-weight: bold;"></div>
+      </div>
+      <!-- Extra OTP Display for Giver -->
+     <div id="extra-otp-display" style="display: none; margin-top: 10px;">
+       <label><strong>⏱ Extra OTP for Worker:</strong></label>
+       <div id="extra-otp-code" style="font-size: 22px; font-weight: bold; color: #ff5722;"></div>
+     </div>
+
+     <!-- Extra OTP Input for Worker -->
+     <div id="extra-otp-input-section" style="display: none; margin-top: 10px;">
+       <label><strong>⏱ Enter Extra OTP from Giver:</strong></label>
+       <input type="text" id="extra-otp-input" class="form-control mt-1" placeholder="Enter extra OTP here">
+       <button id="submit-extra-otp" class="btn btn-info btn-sm mt-2">Verify Extra OTP</button>
+       <div id="extra-otp-status" class="mt-2" style="font-weight: bold;"></div>
+     </div>
+
+
+
+      <p id="chat-timer"></p>
+      <div id="quantity-tracker" style="display: none;">
+      <p><strong>📦 Quantity:</strong> <span id="quantity-count">0 / 0</span></p>
+
+      <label><strong>📈 Update Completed Quantity:</strong></label>
+      <input type="number" min="1" id="completed-input" class="form-control mt-1" placeholder="Enter completed amount" style="display: none;">
+      <button id="submit-completed" class="btn btn-warning btn-sm mt-2" style="display: none;">Submit</button>
+      <div id="completed-status" class="mt-2" style="font-weight: bold;"></div>
+    </div>
+      <div id="chat-box">🗨 Chat will appear here...</div>
+      <div style="display: flex; gap: 5px; margin-top: 5px;">
+          <input type="text" id="chat-input" placeholder="Type your message..." disabled style="flex: 1;" />
+          <button id="send-chat-btn" class="btn btn-primary btn-sm" disabled>Send</button>
+        </div>
+        <script>
+            const CURRENT_USER_ID = {{ current_user.id }};
+        </script>
+        <a id="chat-link" style="display: none;"></a>
+
+      <button id="map-btn" class="btn btn-success btn-sm mt-2" style="display: none;">📍 Get Directions</button>
+      <button id="call-btn" class="btn btn-info btn-sm mt-2">📞 Call Partner</button>
+      <button id="request-extra-btn" class="btn btn-warning mt-2" style="display:none;">⏱ Request Extra Time</button>
+      <button id="stop-extra-btn" class="btn btn-danger mt-2" style="display:none;">🛑 Stop Extra Time</button>
+      <button id="confirm-stop-btn" class="btn btn-dark mt-2" style="display:none;">✅ Confirm Stop</button>
+      <!-- 🚨 Warn Sahayi Button -->
+      <button id="warn-sahayi-btn" class="btn btn-danger mt-3" style="display:none;">⚠ Warn Sahayi</button>
+
+
+
+    </div>
+
+  </div>
+<!-- Worker warning modal -->
+<div id="worker-warn-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center;">
+  <div style="background:white; border-radius:12px; max-width:520px; width:90%; padding:24px; text-align:center; box-shadow:0 8px 30px rgba(0,0,0,0.3);">
+    <h3 style="margin-top:0;">⚠️ Delay Warning</h3>
+    <p id="worker-warn-msg" style="font-size:18px; margin:12px 0;">Your partner warned you for delay in arriving.</p>
+    <p id="worker-warn-chances" style="font-weight:600; margin-bottom:12px;"></p>
+    <div style="display:flex; gap:10px; justify-content:center;">
+      <button id="worker-warn-close" class="btn btn-primary">Close</button>
+      <button id="worker-warn-ack" class="btn btn-outline-secondary">Acknowledge</button>
+    </div>
+  </div>
+</div>
+
+<!-- short alert sound -->
+<audio id="warn-sound" preload="auto">
+  <source src="{{ url_for('static', filename='audio/videoplayback.m4a') }}" type="audio/mp4">
+  <!-- If you want you can replace above data URL with an actual hosted mp3 path like /static/sounds/alert.mp3 -->
+</audio>
+
+
+<div id="location-error" style="display:none; color:red; font-size:12px; margin-top:4px;">
+  ⚠️ Location unavailable. Please enable GPS/Location Services.
+  <br>
+  <button onclick="retryLocation()" class="btn btn-sm btn-outline-danger" style="margin-top:4px;">
+    Retry Location
+  </button>
+</div>
+
+<!-- Worker negotiation popup (global) -->
+<div id="neg-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:5000; align-items:center; justify-content:center;">
+  <div style="background:#fff; border-radius:12px; width:92%; max-width:420px; padding:18px;">
+    <h5 id="neg-title" class="mb-2">Custom price confirmation</h5>
+    <div class="text-muted small mb-2" id="neg-subtitle"></div>
+    <label class="form-label mb-1">Your price (INR)</label>
+    <input type="number" id="neg-worker-price" class="form-control" min="0" step="1" placeholder="Type amount">
+    <div id="neg-msg" class="small text-muted mt-2"></div>
+    <div class="d-flex gap-2 mt-3">
+      <button id="neg-confirm" class="btn btn-primary flex-grow-1">Confirm</button>
+      <button id="neg-cancel"  class="btn btn-outline-danger">Cancel</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+ body {
+      background: linear-gradient(to right, #f8f9fa, #e2e6ea);
+      font-family: 'Segoe UI', sans-serif;
+      padding: 30px;
+    }
+    .card {
+      max-width: 600px;
+      margin: auto;
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    .card-header {
+      background: linear-gradient(to right, #007bff, #00c6ff);
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      border-radius: 16px 16px 0 0;
+    }
+    .card-body p {
+      font-size: 16px;
+    }
+    .btn-pay {
+      font-size: 18px;
+      padding: 12px 30px;
+      border-radius: 8px;
+    }
+    /* Custom popup box */
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.4);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .popup-box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      font-size: 16px;
+    }
+    .popup-box h5 {
+      color: #dc3545;
+      font-weight: bold;
+    }
+    .popup-box button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border-radius: 6px;
+      background-color: #dc3545;
+      color: white;
+      border: none;
+    }

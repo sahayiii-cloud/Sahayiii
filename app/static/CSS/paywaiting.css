@@ -1,0 +1,99 @@
+   body {
+      background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .waiting-card {
+      max-width: 600px;
+      margin: 80px auto;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+      padding: 30px;
+    }
+
+    .waiting-card h2 {
+      color: #007bff;
+      font-weight: bold;
+    }
+
+    .timer {
+      font-size: 28px;
+      font-weight: bold;
+      color: #28a745;
+      margin: 20px 0;
+      animation: glow 1s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 5px #28a745; }
+      to { text-shadow: 0 0 15px #28a745; }
+    }
+
+    .message {
+      font-size: 16px;
+      color: #555;
+    }
+
+    /* Modal customization */
+    .modal-content {
+      border-radius: 12px;
+    }
+
+    .modal-header {
+      background: linear-gradient(to right, #28a745, #50d890);
+    }
+
+    .modal-header h5 {
+      font-weight: bold;
+    }
+    /* ================= DARK MODE ================= */
+    [data-theme="dark"] body{
+      background: linear-gradient(180deg, #020617, #020617);
+      color: #f9fafb;
+    }
+
+    /* Main Card */
+    [data-theme="dark"] .waiting-card{
+      background: rgba(2,6,23,.95);
+      border: 1px solid #1e293b;
+      box-shadow: 0 25px 60px rgba(0,0,0,.6);
+    }
+
+    /* Headings */
+    [data-theme="dark"] .waiting-card h2{
+      color: #38bdf8;
+    }
+
+    /* Messages */
+    [data-theme="dark"] .message{
+      color: #cbd5f5;
+    }
+
+    /* Timer */
+    [data-theme="dark"] .timer{
+      color: #22c55e;
+      text-shadow: 0 0 10px rgba(34,197,94,.6);
+    }
+
+    /* Expired timer */
+    [data-theme="dark"] .timer[style*="red"]{
+      color: #ef4444 !important;
+    }
+
+    /* Modal */
+    [data-theme="dark"] .modal-content{
+      background: #020617;
+      border: 1px solid #1e293b;
+      color: #f9fafb;
+    }
+
+    [data-theme="dark"] .modal-body{
+      color: #e5e7eb;
+    }
+
+    /* Modal Header */
+    [data-theme="dark"] .modal-header{
+      background: linear-gradient(135deg,#16a34a,#22c55e);
+      border-bottom: 1px solid #14532d;
+    }

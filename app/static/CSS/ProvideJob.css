@@ -1,0 +1,278 @@
+body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #ffffff);
+      color: #333;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Fixed boxes */
+    .location-box, .notification-icon, .token-box {
+      position: fixed;
+      z-index: 1000;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    }
+
+    .location-box {
+      top: 10px;
+      left: 10px;
+      background-color: #d7f0e3;
+      max-width: 80vw;
+    }
+
+    .notification-icon {
+      top: 10px;
+      right: 10px;
+      font-size: 18px;
+      z-index: 1060;
+      background-color: #f0f0f0;
+      color: black;
+      text-decoration: none;
+      border-radius: 20px;
+    }
+
+    .token-box {
+      top: 55px; /* adjusted to avoid overlapping notification icon */
+      right: 10px;
+      z-index: 1070;
+      background-color: #fff4e6;
+      border: 1px solid #ffc107;
+      color: #856404;
+      font-weight: 500;
+    }
+
+    /* Hero section */
+    .hero {
+      text-align: center;
+      padding: 140px 20px 40px; /* enough padding to avoid fixed boxes */
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: #00695c;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #555;
+    }
+
+    /* Option cards */
+    .card-options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .option-card {
+      background: white;
+      padding: 30px 20px;
+      border-radius: 16px;
+      width: 250px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .option-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .option-card a {
+      text-decoration: none;
+      color: #0077cc;
+      font-weight: 500;
+      font-size: 18px;
+    }
+
+    /* Logout button */
+    .logout-link {
+      margin-top: 30px;
+      display: inline-block;
+      background-color: #f44336;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background-color 0.3s;
+    }
+
+    .logout-link:hover {
+      background-color: #d32f2f;
+    }
+
+    /* Chat toggle button */
+    .chat-toggle-button {
+      position: fixed;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      writing-mode: vertical-rl;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 0 8px 8px 0;
+      padding: 12px 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 999;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+    }
+
+    /* Chat panel */
+    #chat-direction-panel {
+      display: none;
+      position: fixed;
+      top: 120px;   /* adjust this number to raise/lower */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 400px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+      padding: 20px;
+      z-index: 2000;
+    }
+
+
+    #chat-box {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      height: 300px;
+      overflow-y: auto;
+      background: #f8f9fa;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .chat-message {
+      max-width: 70%;
+      padding: 8px 12px;
+      border-radius: 14px;
+      font-size: 14px;
+      display: inline-block;
+    }
+
+    .chat-message.me {
+      background-color: #007bff;
+      color: white;
+      align-self: flex-start;
+      border-bottom-right-radius: 2px;
+    }
+
+    .chat-message.partner {
+      background-color: #e5e5ea;
+      color: black;
+      align-self: flex-end;
+      border-bottom-left-radius: 2px;
+    }
+
+    #chat-input {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      padding: 8px 10px;
+    }
+
+    /* Change location box */
+    #change-location-box {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #ffffff;
+      padding: 16px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      z-index: 2000;
+      max-height: 300px;
+      overflow-y: auto;
+      min-width: 240px;
+    }
+
+    .location-option {
+      padding: 6px 8px;
+      margin-bottom: 6px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .location-option:hover {
+      background-color: #d7f0e3;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .location-box, .notification-icon, .token-box {
+        font-size: 12px;
+        padding: 6px 10px;
+      }
+
+      .option-card {
+        width: 80%;
+      }
+
+      /* Move token-box further down to avoid overlap */
+      .token-box {
+        top: 90px;
+        right: 8px;
+      }
+
+     /* Push notification icon slightly lower */
+    .notification-icon {
+      top: 10px; /* or increase if needed */
+      right: 10px;
+    }
+
+      /* Ensure hero section starts below fixed elements */
+      .hero {
+        padding-top: 160px;
+      }
+    }
+   #reached-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #28a745; /* green */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      cursor: grabbing;
+      transition: 0.2s;
+    }
+
+    #reached-slider::-moz-range-thumb {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #28a745;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      cursor: grabbing;
+    }
+    .profile-option {
+      padding: 8px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    .profile-option:hover {
+      background: #f2f2f2;
+    }
+    .profile-option a {
+      text-decoration: none;
+      color: #333;
+      display: block;
+    }

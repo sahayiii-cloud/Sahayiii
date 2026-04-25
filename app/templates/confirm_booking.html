@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm Booking</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/static/js/theme.js" defer></script>
+
+
+    <style>
+        body {
+            background:
+              radial-gradient(circle at 0% 0%, rgba(13,110,253,0.18) 0, transparent 45%),
+              radial-gradient(circle at 90% 100%, rgba(25,135,84,0.14) 0, transparent 50%),
+              #f5f7fb;
+            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .form-container {
+            background: #fff;
+            padding: 28px 30px 26px;
+            max-width: 680px;
+            margin: 40px auto;
+            border-radius: 18px;
+            box-shadow:
+              0 18px 40px rgba(15, 23, 42, 0.08),
+              0 0 0 1px rgba(148, 163, 184, 0.12);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(22px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        h3 {
+            color: #0d6efd;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+        }
+
+        .header-icon-circle {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 25% 20%, #fff 0, #e0efff 50%, #cfe0ff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+        }
+
+        .section-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #6c757d;
+        }
+
+        .skill-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: #e7f1ff;
+            color: #0d6efd;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .skill-chip small {
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #212529;
+        }
+
+        .form-control,
+        .form-control-plaintext {
+            border-radius: 12px;
+        }
+
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
+        }
+
+        /* Modern duration / quantity card */
+        .metric-section {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 14px 16px 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.03);
+        }
+
+        .metric-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: #e0f2fe;
+            color: #0d6efd;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+
+        .metric-chip span {
+            font-size: 14px;
+        }
+
+        .metric-sub {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .time-input-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .modern-input {
+            position: relative;
+            flex: 1;
+        }
+
+        .modern-input label {
+            position: absolute;
+            left: 12px;
+            top: 6px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #9ca3af;
+        }
+
+        .modern-input input {
+            padding-top: 22px;
+            padding-bottom: 10px;
+            padding-left: 12px;
+            padding-right: 12px;
+            border-radius: 12px;
+            border: 1px solid #d1d5db;
+            font-size: 15px;
+        }
+
+        .modern-input input:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.1rem rgba(13, 110, 253, 0.25);
+        }
+
+        .modern-input small {
+            font-size: 11px;
+            color: #9ca3af;
+        }
+
+        .btn-success {
+            font-size: 17px;
+            padding: 11px 14px;
+            border-radius: 12px;
+            transition: all 0.18s;
+            font-weight: 600;
+            box-shadow: 0 8px 18px rgba(25, 135, 84, 0.25);
+        }
+
+        .btn-success:hover {
+            background-color: #198754;
+            box-shadow: 0 12px 24px rgba(25, 135, 84, 0.35);
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 576px) {
+            .form-container {
+                padding: 22px 18px;
+                margin-top: 16px;
+            }
+
+            .time-input-group {
+                flex-direction: column;
+            }
+        }
+
+        /* Animation for popup */
+        #popupCard {
+            opacity: 0;
+            transform: translateY(100%);
+            transition: all 0.4s ease-in-out;
+        }
+
+        #popupCard.show {
+            display: block !important;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Modern duration controls */
+        .time-input-group {
+          display: flex;
+          gap: 12px;
+          margin-top: 12px;
+        }
+
+        .duration-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 4px 11px;
+          border-radius: 999px;
+          background: linear-gradient(135deg, #e0f2fe, #eff6ff);
+          color: #0d6efd;
+          font-size: 11px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.12em;
+        }
+
+        .duration-pill span {
+          font-size: 14px;
+        }
+
+        .modern-input {
+          position: relative;
+          flex: 1;
+        }
+
+        .modern-input label {
+          position: absolute;
+          left: 14px;
+          top: 6px;
+          font-size: 11px;
+          text-transform: uppercase;
+          letter-spacing: 0.12em;
+          color: #9ca3af;
+        }
+
+        /* plus/minus group */
+        .step-group {
+          display: flex;
+          align-items: center;
+          background: #ffffff;
+          border-radius: 12px;
+          border: 1px solid #d1d5db;
+          padding: 0 4px;
+          transition: box-shadow 0.15s ease, border-color 0.15s ease;
+          margin-top: 18px; /* space below label */
+        }
+
+        .step-group:focus-within {
+          border-color: #0d6efd;
+          box-shadow: 0 0 0 0.1rem rgba(13,110,253,0.25);
+        }
+
+        .step-btn {
+          border: none;
+          background: transparent;
+          width: 32px;
+          height: 32px;
+          border-radius: 999px;
+          font-size: 18px;
+          line-height: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+        }
+
+        .step-btn:hover {
+          background: #eff6ff;
+        }
+
+        .step-input {
+          border: none !important;
+          box-shadow: none !important;
+          text-align: center;
+          width: 100%;
+          font-size: 16px;
+          padding: 6px 4px;
+        }
+
+        .step-input:focus {
+          outline: none;
+        }
+
+        .duration-total {
+          margin-top: 8px;
+          font-size: 13px;
+          font-weight: 600;
+          color: #111827;
+        }
+
+        .duration-total span {
+          color: #0d6efd;
+        }
+
+        /* ============================
+           DARK MODE - CONFIRM BOOKING
+           ============================ */
+
+        html[data-theme="dark"] body {
+          background: radial-gradient(circle at top left, #020617, #020617 40%, #000814 100%) !important;
+          color: #f8fafc !important;
+        }
+
+        /* Main card */
+        html[data-theme="dark"] .form-container {
+          background: #0b1220 !important;
+          border: 1px solid #1e293b !important;
+          box-shadow: 0 20px 50px rgba(0,0,0,0.6) !important;
+        }
+
+        /* Headings */
+        html[data-theme="dark"] h3 {
+          color: #38bdf8 !important;
+        }
+
+        /* Labels */
+        html[data-theme="dark"] .form-label,
+        html[data-theme="dark"] .section-label {
+          color: #cbd5e1 !important;
+        }
+
+        /* Muted text */
+        html[data-theme="dark"] .text-muted,
+        html[data-theme="dark"] small {
+          color: #94a3b8 !important;
+        }
+
+        /* Skill chip */
+        html[data-theme="dark"] .skill-chip {
+          background: #020617 !important;
+          color: #38bdf8 !important;
+          border: 1px solid #1e293b !important;
+        }
+
+        html[data-theme="dark"] .skill-chip small {
+          color: #cbd5e1 !important;
+        }
+
+        /* Inputs / textarea */
+        html[data-theme="dark"] .form-control,
+        html[data-theme="dark"] textarea,
+        html[data-theme="dark"] input {
+          background: #020617 !important;
+          color: #f8fafc !important;
+          border: 1px solid #1e293b !important;
+        }
+
+        html[data-theme="dark"] .form-control::placeholder {
+          color: #64748b !important;
+        }
+
+        /* Metric sections */
+        html[data-theme="dark"] .metric-section {
+          background: #020617 !important;
+          border: 1px solid #1e293b !important;
+        }
+
+        /* Chips */
+        html[data-theme="dark"] .metric-chip,
+        html[data-theme="dark"] .duration-pill {
+          background: #020617 !important;
+          color: #38bdf8 !important;
+          border: 1px solid #1e293b !important;
+        }
+
+        /* Duration total */
+        html[data-theme="dark"] .duration-total {
+          color: #e5e7eb !important;
+        }
+
+        html[data-theme="dark"] .duration-total span {
+          color: #38bdf8 !important;
+        }
+
+        /* Buttons */
+        html[data-theme="dark"] .btn-success {
+          background: #16a34a !important;
+          border-color: #16a34a !important;
+        }
+
+        html[data-theme="dark"] .btn-success:hover {
+          background: #22c55e !important;
+        }
+
+        /* Popup card */
+        html[data-theme="dark"] #popupCard .card-body {
+          background: #7f1d1d !important;
+          color: #f8fafc !important;
+        }
+
+        /* Negotiation popup */
+        html[data-theme="dark"] #neg-overlay > div {
+          background: #0b1220 !important;
+          border: 1px solid #1e293b !important;
+          color: #f8fafc !important;
+        }
+
+        html[data-theme="dark"] #neg-overlay input {
+          background: #020617 !important;
+          color: #f8fafc !important;
+          border: 1px solid #1e293b !important;
+        }
+
+        /* ============================
+           DARK MODE - DATE PICKER ICON (FIXED)
+           ============================ */
+
+        html[data-theme="dark"] input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+        html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator,
+        html[data-theme="dark"] input[type="time"]::-webkit-calendar-picker-indicator {
+
+          filter: invert(1) brightness(1.6) contrast(1.2);
+          opacity: 1;
+          cursor: pointer;
+        }
+        /* ============================
+           DARK MODE - CUSTOM CALENDAR ICON
+           ============================ */
+
+        /* Hide default icon */
+        html[data-theme="dark"] input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+          opacity: 0;
+          cursor: pointer;
+          position: relative;
+          z-index: 2;
+        }
+
+        /* Wrapper */
+        .calendar-wrap {
+          position: relative;
+        }
+
+        /* Custom icon */
+        .calendar-wrap::after {
+          content: "📅";
+          position: absolute;
+          right: 14px;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 18px;
+          pointer-events: none;
+          color: #f8fafc;
+        }
+
+
+
+
+
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <!-- Header -->
+    <div class="d-flex align-items-center mb-3">
+        <div class="header-icon-circle me-3">📘</div>
+        <div>
+            <h3 class="mb-0">Book {{ worker.name }}</h3>
+            <small class="text-muted">Review the details and send your booking request</small>
+        </div>
+    </div>
+
+    <hr class="mb-3">
+
+    <form id="bookingForm" method="POST">
+        <!-- Selected Skill Display -->
+        <div class="mb-4">
+            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-1">
+                <span class="section-label">Selected skill</span>
+                <span class="text-muted small">Step 1 of 2</span>
+            </div>
+
+            <div class="skill-chip mt-1">
+                💼 <strong>{{ selected_skill.name.title() }}</strong>
+                <small>
+                  {% if selected_skill.category|lower in ['sahayi from home', 'work from home', 'wfh'] %}
+                    Price to be confirmed
+                  {% else %}
+                    ₹{{ selected_skill.rate }} / {{ selected_skill.rate_type }}
+                  {% endif %}
+                </small>
+            </div>
+
+            <!-- Hidden fields -->
+            <input type="hidden" name="skill_id" value="{{ selected_skill.id }}">
+            <input type="hidden"
+               name="rate_type"
+               id="rate_type"
+               value="{{ selected_skill.rate_type }}">
+            <input type="hidden" name="skill_name" id="skill_name" value="{{ selected_skill.name }}">
+        </div>
+
+        <!-- Job Description -->
+        <div class="mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <label class="form-label mb-0">Job Description</label>
+                <small class="text-muted">Step 2 of 2</small>
+            </div>
+            <textarea class="form-control" name="description" rows="4"
+                      placeholder="Brief description of the job, location, time, and any special notes"
+                      required></textarea>
+        </div>
+
+
+        {% if selected_skill.category|lower in ['sahayi from home', 'work from home', 'wfh'] %}
+
+        <div class="metric-section mb-4">
+          <div class="metric-chip"><span>💰</span> Expected Price</div>
+          <input
+            type="number"
+            name="expected_price"
+            min="1"
+            class="form-control mt-2"
+            placeholder="Your expected price (₹)"
+            required
+          >
+          <small class="text-muted">
+            Final price will be confirmed after discussion
+          </small>
+        </div>
+
+        <div class="metric-section mb-4">
+          <div class="metric-chip"><span>📅</span> Completion Deadline</div>
+          <div class="calendar-wrap">
+              <input
+                type="datetime-local"
+                name="deadline"
+                class="form-control mt-2"
+                required
+              >
+          </div>
+
+          <small class="text-muted">
+            Select both date and time (e.g. 02 Dec 2025, 2:15 PM)
+          </small>
+        </div>
+
+
+        {% endif %}
+
+        <!-- Quantity / Duration Field (Dynamic) -->
+        <div id="dynamicInput" class="mb-4"></div>
+
+
+        <!-- Submit -->
+        <button type="submit" class="btn btn-success w-100">✅ Confirm &amp; Book</button>
+    </form>
+</div>
+
+
+<!-- ✅ Custom Popup Card (Bottom Left) -->
+<div id="popupCard" class="card shadow-lg position-fixed bottom-0 start-0 m-3 border-0"
+     style="min-width: 300px; display: none; z-index: 9999;">
+  <div id="popupBody" class="card-body bg-danger text-white d-flex justify-content-between align-items-center rounded">
+    <span id="popupMessage">⚠️ Warning message goes here</span>
+    <button type="button" class="btn-close btn-close-white ms-3" onclick="hidePopup()"></button>
+  </div>
+</div>
+
+<script>
+  function hidePopup() {
+    const popup = document.getElementById("popupCard");
+    if (!popup) return;
+    popup.classList.remove("show");
+    setTimeout(() => { popup.style.display = "none"; }, 300);
+  }
+</script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Worker negotiation popup (global) -->
+<div id="neg-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:5000; align-items:center; justify-content:center;">
+  <div style="background:#fff; border-radius:12px; width:92%; max-width:420px; padding:18px;">
+    <h5 id="neg-title" class="mb-2">Custom price confirmation</h5>
+    <div class="text-muted small mb-2" id="neg-subtitle"></div>
+    <label class="form-label mb-1">Your price (INR)</label>
+    <input type="number" id="neg-worker-price" class="form-control" min="0" step="1" placeholder="Type amount">
+    <div id="neg-msg" class="small text-muted mt-2"></div>
+    <div class="d-flex gap-2 mt-3">
+      <button id="neg-confirm" class="btn btn-primary flex-grow-1">Confirm</button>
+      <button id="neg-cancel"  class="btn btn-outline-danger">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  window.__CUSTOM_JOB__   = {{ 'true' if is_custom else 'false' }};
+  window.__AGREED_PRICE__ = {{ agreed_price if agreed_price is not none else 'null' }};
+</script>
+
+<script>
+  window.__IS_WFH__ = {{ 'true' if selected_skill.category|lower in ['sahayi from home', 'work from home', 'wfh'] else 'false' }};
+</script>
+
+<!-- JS Logic -->
+<script>
+function showPopup(message, type = "error") {
+    const popup = document.getElementById("popupCard");
+    const popupBody = document.getElementById("popupBody");
+    const popupMsg = document.getElementById("popupMessage");
+
+    // Reset classes
+    popupBody.className = "card-body text-white d-flex justify-content-between align-items-center rounded";
+
+    // Set color based on type
+    if (type === "error") {
+        popupBody.classList.add("bg-danger");
+    } else if (type === "warning") {
+        popupBody.classList.add("bg-warning", "text-dark");
+    } else if (type === "success") {
+        popupBody.classList.add("bg-success");
+    } else {
+        popupBody.classList.add("bg-secondary");
+    }
+
+    popupMsg.textContent = message;
+
+    popup.style.display = "block";
+    setTimeout(() => popup.classList.add("show"), 10);
+
+    setTimeout(() => hidePopup(), 3000);
+}
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const form         = document.getElementById("bookingForm");
+  const rateType     = (document.getElementById("rate_type").value || "").toLowerCase();
+  const dynamicInput = document.getElementById("dynamicInput");
+
+  const agreedPrice = window.__AGREED_PRICE__;
+  const isWFH       = String(window.__IS_WFH__) === "true";
+
+  /* ============================
+     1️⃣ WFH → NO quantity UI
+     ============================ */
+  if (isWFH) {
+    dynamicInput.innerHTML = "";
+    return;
+  }
+
+  /* ============================
+     2️⃣ CUSTOM (non-WFH)
+     ============================ */
+  if (rateType === "custom" || rateType === "per custom") {
+    if (agreedPrice == null) {
+      dynamicInput.innerHTML = `
+        <div class="alert alert-danger mb-0">
+          Agreed price is missing. Please complete negotiation.
+        </div>`;
+      document.querySelector('#bookingForm button[type="submit"]').disabled = true;
+    } else {
+      dynamicInput.innerHTML = `
+        <div class="metric-section">
+          <div class="metric-chip"><span>💰</span> Agreed price</div>
+          <input type="text" class="form-control mt-2" value="₹${agreedPrice}" disabled>
+          <input type="hidden" name="agreed_price" value="${agreedPrice}">
+        </div>`;
+    }
+    return;
+  }
+
+  /* ============================
+     3️⃣ REGULAR JOB TYPES
+     ============================ */
+  let html = "";
+
+  if (rateType === "per hour") {
+    html = `
+      <div class="metric-section">
+        <div class="duration-pill"><span>⏱</span> Duration</div>
+
+        <div class="time-input-group">
+          <div class="modern-input">
+            <label>Hours</label>
+            <input type="number" id="hours-input" name="hours"
+                   min="0" max="24" value="0"
+                   class="form-control step-input" required>
+          </div>
+
+          <div class="modern-input">
+            <label>Minutes</label>
+            <input type="number" id="minutes-input" name="minutes"
+                   min="0" max="59" value="0"
+                   class="form-control step-input" required>
+          </div>
+        </div>
+
+        <div id="duration-total" class="duration-total">
+          Total: <span>0h 0m</span>
+        </div>
+      </div>`;
+  }
+  else if (rateType === "per job") {
+    html = `
+      <div class="metric-section">
+        <div class="metric-chip"><span>📦</span> Jobs</div>
+        <input type="number" name="quantity" min="1"
+               class="form-control mt-2"
+               placeholder="Number of jobs" required>
+      </div>`;
+  }
+  else if (rateType === "per kilogram") {
+    html = `
+      <div class="metric-section">
+        <div class="metric-chip"><span>⚖️</span> Weight</div>
+        <input type="number" name="quantity" step="0.1" min="1"
+               class="form-control mt-2"
+               placeholder="Weight in kg" required>
+      </div>`;
+  }
+  else {
+    html = `
+      <div class="metric-section">
+        <div class="metric-chip"><span>📊</span> Quantity</div>
+        <input type="number" name="quantity" min="1"
+               class="form-control mt-2"
+               placeholder="Enter quantity" required>
+      </div>`;
+  }
+
+  dynamicInput.innerHTML = html;
+
+  /* ============================
+     4️⃣ Per-hour live total
+     ============================ */
+  if (rateType === "per hour") {
+    const h = document.getElementById("hours-input");
+    const m = document.getElementById("minutes-input");
+    const t = document.querySelector("#duration-total span");
+
+    function update() {
+      let hh = Math.max(0, Math.min(24, parseInt(h.value || 0)));
+      let mm = Math.max(0, Math.min(59, parseInt(m.value || 0)));
+      h.value = hh;
+      m.value = mm;
+      t.textContent = `${hh}h ${mm}m`;
+    }
+
+    h.addEventListener("input", update);
+    m.addEventListener("input", update);
+    update();
+  }
+
+  /* ============================
+     5️⃣ Submit handler
+     ============================ */
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = "Booking…";
+
+    try {
+      const res = await fetch(window.location.href, {
+        method: "POST",
+        body: new FormData(form)
+      });
+
+      if (!res.headers.get("content-type")?.includes("json")) {
+        window.location.href = res.url;
+        return;
+      }
+
+      const data = await res.json();
+      if (data.redirect) window.location.href = data.redirect;
+    } catch {
+      alert("Booking failed");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "✅ Confirm & Book";
+    }
+  });
+});
+
+// === Negotiation polling (unchanged, just copied) ===
+(function(){
+  let negId = null;
+  let pollTimer = null;
+  const overlay  = document.getElementById('neg-overlay');
+  const titleEl  = document.getElementById('neg-title');
+  const subEl    = document.getElementById('neg-subtitle');
+  const priceEl  = document.getElementById('neg-worker-price');
+  const msgEl    = document.getElementById('neg-msg');
+  const btnOK    = document.getElementById('neg-confirm');
+  const btnCancel= document.getElementById('neg-cancel');
+
+  function showNegPopup(data){
+    negId = data.id;
+    titleEl.textContent = 'Custom price confirmation';
+    subEl.textContent = `From: ${data.giver_name || 'Job Giver'} • Job: ${data.job_title || 'Custom job'}`;
+    priceEl.value = '';
+    msgEl.textContent = 'Enter your price. Booking unlocks when prices match.';
+    overlay.style.display = 'flex';
+    priceEl.focus();
+    if (pollTimer) clearInterval(pollTimer);
+    pollTimer = setInterval(checkStatus, 2000);
+  }
+
+  function hideNegPopup(){
+    overlay.style.display = 'none';
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+    negId = null;
+  }
+
+  async function checkInbox(){
+    if (negId) return;
+    try{
+      const r = await fetch('/negotiation/pending', {credentials:'same-origin'});
+      const j = await r.json();
+      if (j && j.ok && j.negotiation) showNegPopup(j.negotiation);
+    }catch(e){}
+  }
+
+  async function checkStatus() {
+    if (!negId) return;
+    try {
+      const r = await fetch('/negotiation/status?negotiation_id=' + negId, { credentials: 'same-origin' });
+      const d = await r.json();
+      if (!d || !d.ok) return;
+
+      const giver = d.giver_price ? Number(d.giver_price).toFixed(2) : null;
+      const worker = d.worker_price ? Number(d.worker_price).toFixed(2) : null;
+
+      if (d.status === 'confirmed') {
+        msgEl.textContent = `✅ Price matched at ₹${giver || worker}. You can book now.`;
+        setTimeout(hideNegPopup, 1000);
+      } else if (d.status === 'cancelled') {
+        msgEl.textContent = '❌ Negotiation cancelled.';
+        setTimeout(hideNegPopup, 800);
+      } else {
+        if (worker && !giver) {
+          msgEl.textContent = `Your offer: ₹${worker}. Waiting for job giver to respond…`;
+        } else if (giver && !worker) {
+          msgEl.textContent = `Job giver offered ₹${giver}. Enter your price to match.`;
+        } else if (giver && worker && giver !== worker) {
+          msgEl.textContent = `You: ₹${worker} • Job giver: ₹${giver} — amounts must match.`;
+        } else {
+          msgEl.textContent = 'Enter your price. Booking unlocks when prices match.';
+        }
+      }
+    } catch (e) {
+      console.error('Negotiation polling error', e);
+    }
+  }
+
+  btnOK?.addEventListener('click', async () => {
+    if (!negId) return;
+    const val = priceEl.value;
+    if (!val) {
+      priceEl.focus();
+      return;
+    }
+    try {
+      const r = await fetch('/negotiation/offer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({
+          negotiation_id: negId,
+          role: 'worker',
+          price: val
+        })
+      });
+      const d = await r.json();
+
+      const worker = Number(val).toFixed(2);
+      const giver = d.giver_price ? Number(d.giver_price).toFixed(2) : null;
+
+      if (d.status === 'confirmed') {
+        msgEl.textContent = `✅ Price matched at ₹${giver || worker}. You can book now.`;
+        setTimeout(hideNegPopup, 1000);
+      } else if (giver) {
+        msgEl.textContent = `Your offer: ₹${worker}. Job giver offered ₹${giver}. Amounts must match.`;
+      } else {
+        msgEl.textContent = `Your offer: ₹${worker}. Waiting for job giver to enter price…`;
+      }
+    } catch (e) {
+      console.error('Negotiation offer error', e);
+      msgEl.textContent = 'Network error. Try again.';
+    }
+  });
+
+  btnCancel?.addEventListener('click', async ()=>{
+    if (!negId) return hideNegPopup();
+    try{
+      await fetch('/negotiation/cancel', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ negotiation_id: negId })
+      });
+    }catch(e){}
+    hideNegPopup();
+  });
+
+  setInterval(checkInbox, 3000);
+  checkInbox();
+})();
+
+</script>
+</body>
+</html>

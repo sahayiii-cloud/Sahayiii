@@ -1,0 +1,573 @@
+ :root {
+      --primary: #0d6efd;
+      --primary-soft: #e7f1ff;
+      --primary-soft-strong: #d4e5ff;
+      --accent: #2563eb;
+      --danger: #dc2626;
+      --border-subtle: #d0ddf5;
+      --text-main: #1f2933;
+      --text-muted: #6b7280;
+      --card-bg: #ffffff;
+      --bg-soft: #f5f7fe;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background:
+        linear-gradient(135deg, #e3f2fd 0%, #ffffff 40%, #e0ecff 100%);
+      color: var(--text-main);
+      padding: 16px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wallet-shell {
+      width: 100%;
+      max-width: 880px;
+    }
+
+    .wallet-header {
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .wallet-title {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .wallet-title h1 {
+      margin: 0;
+      font-size: 1.7rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #0b3c6f;
+    }
+
+    .wallet-title h1 span.emoji {
+      font-size: 1.5em;
+    }
+
+    .wallet-title p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .integrity-pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--border-subtle);
+      background: #ffffff;
+      box-shadow: 0 4px 10px rgba(148, 163, 184, 0.25);
+      color: var(--text-main);
+    }
+
+    .integrity-pill.ok {
+      border-color: rgba(22,163,74,0.4);
+      background: #ecfdf3;
+      color: #166534;
+    }
+
+    .integrity-pill.fail {
+      border-color: rgba(248,113,113,0.5);
+      background: #fef2f2;
+      color: #b91c1c;
+    }
+
+    /* Main card */
+    .wallet-card {
+      background: var(--card-bg);
+      border-radius: 22px;
+      padding: 18px 18px 16px;
+      border: 1px solid var(--border-subtle);
+      box-shadow:
+        0 14px 35px rgba(15,23,42,0.12);
+    }
+
+    .wallet-top-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .balance-card {
+      flex: 1.4;
+      padding: 14px 14px 12px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #ffffff, #edf3ff);
+      border: 1px solid #d6e4ff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 220px;
+      box-shadow: 0 10px 22px rgba(15,23,42,0.08);
+    }
+
+    .balance-label {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .balance-value {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: #0b3c6f;
+    }
+
+    .balance-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .quick-badges {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .quick-badge {
+      font-size: 0.78rem;
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid #dbe4ff;
+      background: #f5f7ff;
+      color: #44546a;
+    }
+
+    .actions-column {
+      flex: 1;
+      min-width: 220px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .action-card {
+      border-radius: 16px;
+      padding: 10px 12px;
+      background: #f9fbff;
+      border: 1px solid #dde7ff;
+      box-shadow: 0 6px 16px rgba(15,23,42,0.05);
+    }
+
+    .action-card h3 {
+      margin: 0 0 4px;
+      font-size: 0.98rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #0b3c6f;
+    }
+
+    .action-card p {
+      margin: 0 0 8px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .field-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .field-row input {
+      padding: 9px 10px;
+      border-radius: 10px;
+      border: 1px solid #d0ddf5;
+      background: #ffffff;
+      color: var(--text-main);
+      width: 100%;
+      max-width: 160px;
+      font-size: 0.9rem;
+    }
+
+    .field-row input::placeholder {
+      color: #94a3b8;
+    }
+
+    .field-row input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px rgba(37,99,235,0.35);
+    }
+
+    .btn {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: 0.15s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0ea5e9, #2563eb);
+      color: white;
+      box-shadow: 0 10px 20px rgba(37,99,235,0.35);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      background: #ffffff;
+      color: #0b3c6f;
+      border: 1px solid #cbd5f5;
+      box-shadow: 0 4px 10px rgba(15,23,42,0.06);
+    }
+
+    .btn-ghost:hover {
+      background: #e0ebff;
+      border-color: #b0c4ff;
+    }
+
+    .help-text {
+      margin-top: 4px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .help-text.danger {
+      color: #b91c1c;
+    }
+
+    /* Transactions section */
+    .tx-section {
+      margin-top: 18px;
+      padding-top: 12px;
+      border-top: 1px dashed #d1ddf5;
+    }
+
+    .tx-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .tx-header h3 {
+      margin: 0;
+      font-size: 1rem;
+      color: #0b3c6f;
+    }
+
+    .tx-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .tx-table-wrap {
+      margin-top: 6px;
+      border-radius: 12px;
+      border: 1px solid #dde7ff;
+      overflow: hidden;
+      background: #ffffff;
+      max-height: 260px;
+      overflow-y: auto;
+      box-shadow: 0 8px 18px rgba(15,23,42,0.06);
+    }
+
+    table {
+      width: 100%;
+      min-width: 520px;     /* force horizontal scrolling on small screens */
+      border-collapse: collapse;
+      font-size: 0.86rem;
+    }
+
+
+    thead tr {
+      background: #f5f7ff;
+    }
+
+    th, td {
+      padding: 8px 10px;
+      text-align: left;
+      border-bottom: 1px solid #edf2ff;
+    }
+
+    th {
+      font-weight: 500;
+      color: #6b7280;
+      position: sticky;
+      top: 0;
+      background: #f5f7ff;
+      z-index: 1;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #f9fbff;
+    }
+
+    tbody tr:nth-child(odd) {
+      background: #ffffff;
+    }
+
+    tbody tr:hover {
+      background: #e4ecff;
+    }
+
+    .tx-kind {
+      font-size: 0.78rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #cbd5f5;
+      background: #eff3ff;
+      color: #1e3a8a;
+      display: inline-block;
+    }
+
+    .tx-amount {
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+      white-space: nowrap;
+      color: #111827;
+    }
+
+    .tx-ref {
+      max-width: 160px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #4b5563;
+    }
+
+    .tx-empty {
+      text-align: center;
+      padding: 16px;
+      color: var(--text-muted);
+      font-size: 0.86rem;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 720px) {
+      body {
+        padding: 12px;
+        align-items: stretch;
+      }
+
+      .wallet-shell {
+        max-width: 100%;
+      }
+
+      .wallet-card {
+        border-radius: 18px;
+        padding: 14px 12px 12px;
+      }
+
+      .wallet-top-row {
+        flex-direction: column;
+      }
+
+      .balance-card {
+        min-width: 0;
+      }
+
+      .wallet-title h1 {
+        font-size: 1.5rem;
+      }
+
+      .tx-table-wrap {
+        margin-top: 6px;
+        border-radius: 12px;
+        border: 1px solid #dde7ff;
+        background: #ffffff;
+
+        /* scrolling */
+        max-height: 260px;       /* vertical limit */
+        overflow-y: auto;        /* vertical scroll */
+        overflow-x: auto;        /* horizontal scroll */
+
+        box-shadow: 0 8px 18px rgba(15,23,42,0.06);
+
+        /* important for sideways scrolling on small screens */
+        white-space: nowrap;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .wallet-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .integrity-pill {
+        margin-top: 4px;
+      }
+    }
+
+    .tx-meta {
+      margin-top: 2px;
+      font-size: 0.72rem;
+      color: #6b7280;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tx-meta span::after {
+      content: "•";
+      margin: 0 4px;
+    }
+
+    .tx-meta span:last-child::after {
+      content: "";
+    }
+    /* ============================
+       DARK MODE - WALLET PAGE
+       ============================ */
+
+    html[data-theme="dark"] body {
+      background: radial-gradient(circle at top left, #020617, #020617 40%, #000814 100%) !important;
+      color: #f8fafc !important;
+    }
+
+    /* Main card */
+    html[data-theme="dark"] .wallet-card {
+      background: #0b1220 !important;
+      border: 1px solid #1e293b !important;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.6) !important;
+    }
+
+    /* Balance card */
+    html[data-theme="dark"] .balance-card {
+      background: #020617 !important;
+      border: 1px solid #1e293b !important;
+      color: #f8fafc !important;
+    }
+
+    /* Action cards */
+    html[data-theme="dark"] .action-card {
+      background: #020617 !important;
+      border: 1px solid #1e293b !important;
+    }
+
+    /* Headings */
+    html[data-theme="dark"] h1,
+    html[data-theme="dark"] h3 {
+      color: #38bdf8 !important;
+    }
+
+    /* Muted text */
+    html[data-theme="dark"] .wallet-title p,
+    html[data-theme="dark"] .balance-label,
+    html[data-theme="dark"] .balance-sub,
+    html[data-theme="dark"] .help-text,
+    html[data-theme="dark"] .tx-sub,
+    html[data-theme="dark"] .tx-meta {
+      color: #94a3b8 !important;
+    }
+
+    /* Amount */
+    html[data-theme="dark"] .balance-value {
+      color: #f8fafc !important;
+    }
+
+    /* Pills */
+    html[data-theme="dark"] .integrity-pill {
+      background: #020617 !important;
+      border-color: #1e293b !important;
+      color: #f8fafc !important;
+    }
+
+    /* Inputs */
+    html[data-theme="dark"] .field-row input {
+      background: #020617 !important;
+      color: #f8fafc !important;
+      border: 1px solid #1e293b !important;
+    }
+
+    html[data-theme="dark"] .field-row input::placeholder {
+      color: #64748b !important;
+    }
+
+    /* Buttons */
+    html[data-theme="dark"] .btn-ghost {
+      background: #020617 !important;
+      color: #f8fafc !important;
+      border: 1px solid #1e293b !important;
+    }
+
+    html[data-theme="dark"] .btn-ghost:hover {
+      background: #0b1220 !important;
+    }
+
+    /* Transaction table */
+    html[data-theme="dark"] .tx-table-wrap {
+      background: #020617 !important;
+      border: 1px solid #1e293b !important;
+    }
+
+    /* Table header */
+    html[data-theme="dark"] thead tr,
+    html[data-theme="dark"] th {
+      background: #020617 !important;
+      color: #94a3b8 !important;
+    }
+
+    /* Table rows */
+    html[data-theme="dark"] tbody tr:nth-child(even),
+    html[data-theme="dark"] tbody tr:nth-child(odd) {
+      background: #020617 !important;
+    }
+
+    html[data-theme="dark"] tbody tr:hover {
+      background: #0b1220 !important;
+    }
+
+    /* Table cells */
+    html[data-theme="dark"] td {
+      color: #e5e7eb !important;
+    }
+
+    /* Amount column */
+    html[data-theme="dark"] .tx-amount {
+      color: #f8fafc !important;
+    }
+
+    /* Kind badge */
+    html[data-theme="dark"] .tx-kind {
+      background: #020617 !important;
+      border-color: #1e293b !important;
+      color: #38bdf8 !important;
+    }
+
+    /* Quick badges */
+    html[data-theme="dark"] .quick-badge {
+      background: #020617 !important;
+      border: 1px solid #1e293b !important;
+      color: #cbd5e1 !important;
+    }

@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WFH Booking</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="/static/js/theme.js" defer></script>
+
+
+  <style>
+    :root{
+      --brand1:#0d6efd;
+      --brand2:#00b4ff;
+      --shadow: 0 12px 35px rgba(0,0,0,.08);
+      --shadow2: 0 22px 60px rgba(0,0,0,.12);
+      --radius: 18px;
+      --text: rgba(0,0,0,.82);
+      --muted: rgba(0,0,0,.55);
+    }
+
+    body{
+      background:
+        radial-gradient(900px 500px at 15% 10%, rgba(13,110,253,.14), transparent),
+        radial-gradient(900px 550px at 85% 20%, rgba(0,180,255,.14), transparent),
+        linear-gradient(180deg, #f7f9ff, #f3f7ff);
+      min-height: 100vh;
+      color: var(--text);
+    }
+
+    .page-wrap{
+      max-width: 780px;
+      margin: 18px auto 70px;
+      padding: 0 14px;
+    }
+
+    /* HERO HEADER */
+    .hero{
+      background: linear-gradient(135deg, var(--brand1), var(--brand2));
+      border-radius: 22px;
+      padding: 18px;
+      color: #fff;
+      box-shadow: var(--shadow2);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:-70px -70px auto auto;
+      width: 260px;
+      height: 260px;
+      background: rgba(255,255,255,.18);
+      border-radius: 999px;
+      transform: rotate(15deg);
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      left:-80px;
+      bottom:-80px;
+      width: 280px;
+      height: 280px;
+      background: rgba(255,255,255,.10);
+      border-radius: 999px;
+    }
+
+    .hero-title{
+      font-weight: 900;
+      margin: 0;
+      font-size: 1.25rem;
+      letter-spacing: .2px;
+    }
+    .hero-sub{
+      opacity: .92;
+      font-size: .92rem;
+      margin-top: 4px;
+      line-height: 1.25;
+    }
+
+    .hero-pill{
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.25);
+      padding: 8px 12px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .hero-meta{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .meta-box{
+      flex: 1;
+      min-width: 160px;
+      background: rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 16px;
+      padding: 12px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .meta-box .label{ font-size: .75rem; opacity: .92; }
+    .meta-box .value{ font-size: 1.05rem; font-weight: 900; margin-top: 4px; }
+
+    /* Glass cards */
+    .glass-card{
+      background: rgba(255,255,255,.82);
+      border: 1px solid rgba(0,0,0,.06);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .section-title{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .section-title h6{
+      margin: 0;
+      font-weight: 900;
+      letter-spacing: .2px;
+    }
+
+    .pill{
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 900;
+      font-size: .78rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(0,0,0,.06);
+      background: rgba(255,255,255,.65);
+      color: #111;
+      white-space: nowrap;
+    }
+
+    /* Status Pills */
+    .status-pill{
+      color: #fff;
+      border: none;
+    }
+    .status-blue{ background: rgba(13,110,253,.95); }
+    .status-yellow{ background: rgba(255,193,7,.98); color: #1b1b1b; }
+    .status-red{ background: rgba(220,53,69,.95); }
+    .status-green{ background: rgba(25,135,84,.95); }
+    .status-gray{ background: rgba(108,117,125,.95); }
+
+    .desc-box{
+      background: rgba(13,110,253,.05);
+      border: 1px solid rgba(13,110,253,.12);
+      border-radius: 16px;
+      padding: 12px;
+      color: rgba(0,0,0,.78);
+    }
+
+    /* Update cards */
+    .update-card{
+      border: 1px solid rgba(0,0,0,.07);
+      background: rgba(255,255,255,.76);
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 12px;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .update-card:hover{
+      transform: translateY(-2px);
+      box-shadow: var(--shadow2);
+    }
+
+    .update-header{
+      display:flex;
+      justify-content: space-between;
+      align-items:center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .update-header strong{ font-weight: 900; }
+
+    /* Buttons */
+    .btn-soft{
+      border-radius: 14px !important;
+      font-weight: 900;
+      padding: 10px 14px;
+      box-shadow: 0 10px 22px rgba(0,0,0,.06);
+    }
+
+    /* Better inputs */
+    textarea.form-control,
+    input.form-control,
+    select.form-select{
+      border-radius: 14px !important;
+      border: 1px solid rgba(0,0,0,.08);
+      box-shadow: none !important;
+    }
+    textarea.form-control:focus,
+    input.form-control:focus,
+    select.form-select:focus{
+      border-color: rgba(13,110,253,.40) !important;
+    }
+
+    /* Smooth appear */
+    .fade-in{
+      animation: fadeIn .18s ease;
+    }
+    @keyframes fadeIn{
+      from{ opacity: 0; transform: translateY(6px); }
+      to{ opacity: 1; transform: translateY(0); }
+    }
+
+    /* ================= MOBILE COMPACT FIX ================= */
+    @media (max-width: 576px){
+
+      .page-wrap{
+        margin: 12px auto 45px;
+        padding: 0 12px;
+      }
+
+      .hero{
+        padding: 14px;
+        border-radius: 18px;
+      }
+
+      .hero-title{
+        font-size: 1.1rem;
+      }
+
+      .hero-sub{
+        font-size: .86rem;
+      }
+
+      .hero-pill{
+        padding: 6px 10px;
+        font-size: .78rem;
+        gap: 6px;
+      }
+
+      /* ✅ Clean 2x2 meta grid on mobile */
+      .hero-meta{
+        margin-top: 10px;
+        gap: 10px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .meta-box{
+        min-width: 0;
+        padding: 10px;
+        border-radius: 14px;
+      }
+
+      .meta-box .label{
+        font-size: .68rem;
+      }
+
+      .meta-box .value{
+        font-size: .92rem;
+      }
+
+      .glass-card .card-body{
+        padding: 14px;
+      }
+
+      .section-title h6{
+        font-size: 1rem;
+      }
+
+      .pill{
+        font-size: .72rem;
+        padding: 5px 9px;
+      }
+
+      .alert{
+        padding: 10px 12px;
+        font-size: .92rem;
+        border-radius: 14px;
+      }
+
+      .update-card{
+        padding: 12px;
+        border-radius: 14px;
+      }
+
+      .btn-soft{
+        padding: 10px 12px;
+        font-size: .95rem;
+      }
+    }
+
+    /* ================= DARK MODE ================= */
+    [data-theme="dark"] body{
+      background:
+        radial-gradient(900px 500px at 15% 10%, rgba(59,130,246,.18), transparent),
+        radial-gradient(900px 550px at 85% 20%, rgba(14,165,233,.18), transparent),
+        linear-gradient(180deg, #020617, #020617);
+      color: #f9fafb;
+    }
+
+    /* Glass cards */
+    [data-theme="dark"] .glass-card,
+    [data-theme="dark"] .update-card{
+      background: rgba(2,6,23,.9) !important;
+      border-color: #1e293b !important;
+      color: #f9fafb !important;
+    }
+
+    /* Meta boxes */
+    [data-theme="dark"] .meta-box{
+      background: rgba(255,255,255,.06) !important;
+      border-color: #1e293b !important;
+    }
+
+    /* Section text */
+    [data-theme="dark"] .section-title h6,
+    [data-theme="dark"] .hero-title{
+      color: #f9fafb !important;
+    }
+
+    [data-theme="dark"] .hero-sub{
+      color: #cbd5f5 !important;
+    }
+
+    /* Description box */
+    [data-theme="dark"] .desc-box{
+      background: rgba(59,130,246,.08) !important;
+      border-color: rgba(59,130,246,.25) !important;
+      color: #e5e7eb !important;
+    }
+
+    /* Pills */
+    [data-theme="dark"] .pill{
+      background: rgba(255,255,255,.06) !important;
+      border-color: #1e293b !important;
+      color: #fff !important;
+    }
+
+    /* Forms */
+    [data-theme="dark"] input,
+    [data-theme="dark"] textarea,
+    [data-theme="dark"] select{
+      background: #020617 !important;
+      color: #fff !important;
+      border: 1px solid #334155 !important;
+    }
+
+    [data-theme="dark"] input::placeholder,
+    [data-theme="dark"] textarea::placeholder{
+      color: #64748b !important;
+    }
+
+    /* Alerts */
+    [data-theme="dark"] .alert{
+      background: rgba(255,255,255,.04) !important;
+      color: #f9fafb !important;
+      border-color: #1e293b !important;
+    }
+
+    /* Status badge */
+    [data-theme="dark"] .badge.bg-light{
+      background: #1e293b !important;
+      color: #fff !important;
+    }
+
+    /* Buttons */
+    [data-theme="dark"] .btn-outline-primary,
+    [data-theme="dark"] .btn-outline-danger{
+      color: #fff !important;
+      border-color: #475569 !important;
+    }
+
+    [data-theme="dark"] .btn-outline-primary:hover,
+    [data-theme="dark"] .btn-outline-danger:hover{
+      background: rgba(255,255,255,.08) !important;
+    }
+
+    /* Update cards */
+    [data-theme="dark"] .update-card:hover{
+      box-shadow: 0 20px 50px rgba(0,0,0,.6) !important;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="page-wrap fade-in">
+
+  <!-- HERO -->
+  <div class="hero mb-3">
+    <div class="d-flex justify-content-between align-items-start gap-2 flex-wrap">
+      <div>
+        <div class="hero-title">WFH Booking</div>
+        <div class="hero-sub">Submit work updates, handle revisions, and manage disputes.</div>
+      </div>
+
+      <div class="hero-pill">
+        📌 <span id="booking-status" class="badge bg-light text-dark px-3 py-2 rounded-pill">
+          {{ booking.status }}
+        </span>
+      </div>
+    </div>
+
+    <div class="hero-meta">
+      <div class="meta-box">
+        <div class="label">Skill</div>
+        <div class="value">{{ booking.skill_name }}</div>
+      </div>
+
+      <div class="meta-box">
+        <div class="label">Booking ID</div>
+        <div class="value">#{{ booking.id }}</div>
+      </div>
+
+      <div class="meta-box">
+        <div class="label">Deadline</div>
+        <div class="value">
+          {% if booking.deadline %}
+            {{ booking.deadline.strftime("%d %b %Y") }}
+          {% else %}
+            None
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="meta-box">
+        <div class="label">Payment</div>
+        <div class="value">
+          {% if booking.payment_completed %}
+            Paid ✅
+          {% else %}
+            Not Paid ❌
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JOB OVERVIEW -->
+  <div class="glass-card mb-3">
+    <div class="card-body">
+
+      <div class="section-title">
+        <h6>🧾 Job Overview</h6>
+
+        {% if booking.status == "WFH_IN_PROGRESS" %}
+          <span class="pill status-pill status-blue">🚀 In Progress</span>
+        {% elif booking.status in ["WFH_PENDING_PRICE","WFH_NEGOTIATING"] %}
+          <span class="pill status-pill status-yellow">💬 Negotiating</span>
+        {% elif booking.status == "WFH_CONFIRMED" %}
+          <span class="pill status-pill status-yellow">✅ Confirmed</span>
+        {% elif booking.status == "WFH_REVIEW_PENDING" %}
+          <span class="pill status-pill status-yellow">🧪 Review Pending</span>
+        {% elif booking.status == "WFH_COMPLETED" %}
+          <span class="pill status-pill status-green">🏁 Completed</span>
+        {% elif booking.status == "WFH_DISPUTED" %}
+          <span class="pill status-pill status-red">⚠️ Disputed</span>
+        {% elif booking.status == "WFH_CANCELLED" %}
+          <span class="pill status-pill status-gray">❌ Cancelled</span>
+        {% else %}
+          <span class="pill status-pill status-gray">ℹ️ {{ booking.status }}</span>
+        {% endif %}
+      </div>
+
+      <div class="text-muted small fw-bold">Description</div>
+      <div class="desc-box mt-2">
+        {{ booking.description or "No description provided" }}
+      </div>
+
+      {% if booking.deadline %}
+        <div class="mt-3">
+          <span class="pill">⏰ End: {{ booking.deadline.strftime("%d %b %Y, %I:%M %p") }}</span>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if booking.status == "WFH_CANCELLED" %}
+    <div class="alert alert-danger text-center mt-3">
+      ❌ <strong>This job has been cancelled</strong><br>
+      No further actions are allowed.
+    </div>
+  {% endif %}
+
+  {% if booking.status in ["WFH_PENDING_PRICE", "WFH_NEGOTIATING"] and not booking.payment_completed %}
+    <form id="cancel-form"
+          method="post"
+          action="/wfh/booking/{{ booking.id }}/cancel"
+          class="ajax-form"
+          data-confirm="Cancel job before payment?">
+      <button type="submit" class="btn btn-outline-danger btn-soft w-100">
+        ❌ Cancel Job (Before Payment)
+      </button>
+    </form>
+  {% endif %}
+
+  {% if booking.status != "WFH_CANCELLED" %}
+  <!-- PRICE SECTION -->
+  <div class="glass-card mb-3">
+    <div class="card-body">
+
+      <div class="section-title">
+        <h6>💰 Price Negotiation</h6>
+        <span class="pill">Secure escrow flow</span>
+      </div>
+
+      {% if booking.status in ["WFH_PENDING_PRICE", "WFH_NEGOTIATING"] and not booking.payment_completed %}
+
+        {% if booking.expected_price %}
+          <div class="alert alert-info mb-2">
+            👤 Job giver suggested: <strong>₹{{ booking.expected_price }}</strong>
+          </div>
+        {% endif %}
+
+        <form method="post" action="/wfh/booking/{{ booking.id }}/submit-price" class="ajax-form">
+          <div class="input-group">
+            <span class="input-group-text">₹</span>
+            <input type="number" name="price" class="form-control" required>
+            <button type="submit" class="btn btn-warning btn-soft">Submit</button>
+          </div>
+        </form>
+
+      {% elif booking.status == "WFH_CONFIRMED" %}
+
+        <div class="alert alert-success mb-0">
+          ✅ Price Confirmed: <strong>₹{{ booking.rate }}</strong>
+        </div>
+
+        {% if booking.payment_completed %}
+          <div class="alert alert-primary mt-2 mb-0">
+            💼 Job In Progress
+          </div>
+        {% endif %}
+
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+
+  {# ================= UPDATE REQUEST FLAGS (FOR WORKER) ================= #}
+  {% set giver_update = booking.project_updates
+     | selectattr("status", "equalto", "requested")
+     | selectattr("request_origin", "equalto", "job_giver")
+     | list
+     | first
+  %}
+
+  {% set system_update = booking.project_updates
+     | selectattr("status", "equalto", "requested")
+     | selectattr("request_origin", "equalto", "system")
+     | list
+     | first
+  %}
+
+  {% if giver_update %}
+    <div class="alert alert-warning text-center mt-3">
+      ⏳ <strong>Job giver requested a progress update</strong><br>
+      You must respond before:<br>
+      <strong>{{ giver_update.request_deadline.strftime("%d %b %Y, %I:%M %p") }}</strong>
+    </div>
+  {% elif system_update %}
+    <div class="alert alert-secondary text-center mt-3">
+      ℹ️ <strong>System update window is open</strong><br>
+      You can submit a progress update anytime.<br>
+      <small class="text-muted">No deadline enforced.</small>
+    </div>
+  {% endif %}
+
+
+  {# ================= STATE FLAGS ================= #}
+  {% set pending_worker_update = booking.project_updates
+     | selectattr("submitted_by", "equalto", booking.worker_id)
+     | selectattr("status", "in", ["submitted", "approval_requested"])
+     | list
+     | length > 0
+  %}
+  {% set has_active_request = booking.project_updates
+     | selectattr("status", "equalto", "requested")
+     | selectattr("request_origin", "in", ["system", "job_giver"])
+     | list
+     | length > 0
+  %}
+  {% set giver_responded = booking.project_updates
+     | selectattr("submitted_by", "equalto", booking.worker_id)
+     | selectattr("status", "in", ["approved", "revision_requested", "commented"])
+     | list
+     | length > 0
+  %}
+
+  <!-- APPROVAL REQUEST INFO -->
+  {% if booking.status != "WFH_CANCELLED" and booking.payment_completed %}
+
+    {% if booking.status == "WFH_REVIEW_PENDING" %}
+      <div class="alert alert-warning text-center">
+        🧾 Approval requested.<br>
+
+        {% if booking.review_deadline %}
+          Job giver must respond before:<br>
+          <strong>{{ booking.review_deadline.strftime("%d %b %Y, %I:%M %p") }}</strong><br>
+          <small class="text-muted">
+            If job giver does not respond, the system will auto-approve and release your payment.
+          </small>
+        {% else %}
+          Waiting for job giver response.
+        {% endif %}
+      </div>
+
+    {% elif booking.status in ["WFH_CONFIRMED", "WFH_IN_PROGRESS"] %}
+      {% if not approval_allowed %}
+        <div class="alert alert-secondary text-center">
+          ⏳ You can request review after 50% of job time
+        </div>
+      {% endif %}
+    {% endif %}
+  {% endif %}
+
+
+  <!-- PROJECT UPDATE REQUEST -->
+  {% if
+      booking.status in ["WFH_IN_PROGRESS", "WFH_REVISION_REQUESTED"]
+      and not pending_worker_update
+      and (
+          booking.status == "WFH_REVISION_REQUESTED"
+          or has_active_request
+          or approval_allowed
+      )
+  %}
+    <div class="glass-card mb-3 border border-primary">
+      <div class="card-body">
+
+        <div class="section-title">
+          <h6 class="mb-0 text-primary">
+            {% if booking.status == "WFH_REVISION_REQUESTED" %}
+              🔁 Submit Revised Work
+            {% else %}
+              📤 Project Update Requested
+            {% endif %}
+          </h6>
+          <span class="pill">Required</span>
+        </div>
+
+        <form method="post"
+              action="/wfh/booking/{{ booking.id }}/submit-update"
+              enctype="multipart/form-data"
+              class="ajax-form">
+
+          <label class="form-label fw-bold">Update Type</label>
+          <select name="update_type" class="form-select mb-2" required>
+            <option value="progress">Progress Update</option>
+            <option value="milestone">Completed Step</option>
+            <option value="blocker">Issue / Blocker</option>
+            <option value="clarification">Clarification</option>
+          </select>
+
+          <label class="form-label fw-bold">Details</label>
+          <textarea name="message"
+                    class="form-control mb-2"
+                    rows="4"
+                    required
+                    minlength="10"
+                    placeholder="Explain the work done clearly..."></textarea>
+
+          <input name="preview_url"
+                 class="form-control mb-2"
+                 placeholder="Preview / Drive / Website link (optional)">
+
+          <label class="form-label fw-bold">Upload File (max 500 MB)</label>
+          <input type="file" name="file" class="form-control mb-1">
+          <small class="text-muted">Allowed: images, PDF • Max size: 500 MB</small>
+
+          <button type="submit" class="btn btn-success btn-soft w-100 mt-3">
+            ✅ Submit Update
+          </button>
+        </form>
+
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- ✅ WORKER TIMELINE (SHOW SUBMITTED UPDATES + JOB GIVER COMMENTS) -->
+  {% if booking.project_updates and booking.project_updates|length > 0 %}
+    <div class="glass-card mb-3" id="submittedWork">
+      <div class="card-body">
+
+        <div class="section-title">
+          <h6>📦 Submitted Work</h6>
+          <span class="pill">Timeline</span>
+        </div>
+
+        {% for u in booking.project_updates
+           if u.submitted_by == booking.worker_id
+           and u.status in ["submitted","approval_requested","approved","revision_requested","commented"] %}
+
+          <div class="update-card">
+            <div class="update-header">
+              <strong>{{ u.update_type|capitalize }}</strong>
+
+              <span class="pill">
+                🕒 {{ u.submitted_at.strftime("%d %b %I:%M %p") if u.submitted_at }}
+              </span>
+            </div>
+
+            {% if u.message %}
+              <p class="mt-2 mb-2">{{ u.message }}</p>
+            {% endif %}
+
+            {% if u.preview_url %}
+              <a class="btn btn-outline-primary btn-soft w-100 mb-2"
+                 href="{{ u.preview_url }}" target="_blank">
+                🔗 Open Preview Link
+              </a>
+            {% endif %}
+
+            {% if u.file_url %}
+              <a class="btn btn-outline-primary btn-soft w-100 mb-2"
+                 href="/wfh/update/file/{{ u.id }}">
+                📎 Download Attachment
+              </a>
+            {% endif %}
+
+            <!-- ✅ STATUS DISPLAY -->
+            {% if u.status == "approval_requested" %}
+              <div class="alert alert-warning mb-0 mt-2">
+                🧾 Completion requested — waiting for Job Giver approval.
+              </div>
+
+            {% elif u.status == "approved" %}
+              <div class="alert alert-success mb-0 mt-2">
+                ✅ Approved by Job Giver.
+              </div>
+
+            {% elif u.status == "revision_requested" %}
+              <div class="alert alert-danger mb-0 mt-2">
+                🔁 Revision requested by Job Giver.
+                {% if u.provider_comment %}
+                  <br><strong>Reason:</strong> {{ u.provider_comment }}
+                {% endif %}
+              </div>
+
+            {% elif u.status == "commented" %}
+              <div class="alert alert-info mb-0 mt-2">
+                💬 Job Giver Comment:
+                {% if u.provider_comment %}
+                  <br><strong>{{ u.provider_comment }}</strong>
+                {% else %}
+                  <br><span class="text-muted">No comment text found.</span>
+                {% endif %}
+              </div>
+
+            {% elif u.status == "submitted" %}
+              <div class="alert alert-secondary mb-0 mt-2">
+                📤 Submitted — waiting for Job Giver response.
+              </div>
+            {% endif %}
+
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+
+  {% if dispute %}
+    <div class="glass-card mb-3" id="disputeCenter">
+      <div class="card-body">
+
+        <div class="section-title">
+          <h6>⚠️ Dispute Center</h6>
+          <span class="pill status-pill status-red">WFH Disputed</span>
+        </div>
+
+        <div class="alert alert-danger">
+          <strong>Dispute Opened</strong><br>
+          Reason: {{ dispute.reason }}
+        </div>
+
+        <!-- Timeline -->
+        {% if dispute_responses and dispute_responses|length > 0 %}
+          {% for r in dispute_responses %}
+            <div class="update-card">
+              <div class="update-header">
+                <strong>
+                  {% if r.user_id == booking.provider_id %}
+                    Job Giver
+                  {% elif r.user_id == booking.worker_id %}
+                    Worker
+                  {% else %}
+                    User #{{ r.user_id }}
+                  {% endif %}
+                </strong>
+                <span class="pill">
+                  🕒 {{ r.created_at.strftime("%d %b %I:%M %p") if r.created_at }}
+                </span>
+              </div>
+
+              <p class="mt-2 mb-2">{{ r.message }}</p>
+
+              {% if r.files and r.files|length > 0 %}
+                {% for f in r.files %}
+                  <a class="btn btn-outline-primary btn-soft w-100 mb-2"
+                     href="/wfh/dispute/file/{{ f.id }}">
+                    📎 Download Proof
+                  </a>
+                {% endfor %}
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="alert alert-secondary">
+            No responses yet.
+          </div>
+        {% endif %}
+
+        <!-- Respond form for the OTHER user -->
+        {% if current_user.id != dispute.raised_by %}
+          <div class="alert alert-warning mt-3">
+            ✍️ Share your side (allowed only once)
+          </div>
+
+          <form method="post"
+                action="/wfh/dispute/{{ dispute.id }}/respond"
+                enctype="multipart/form-data"
+                class="ajax-form">
+
+            <textarea name="message"
+                      class="form-control mb-2"
+                      rows="3"
+                      required
+                      minlength="10"
+                      placeholder="Explain your side clearly..."></textarea>
+
+            <input type="file"
+                   name="proof"
+                   class="form-control mb-2"
+                   multiple
+                   accept=".jpg,.jpeg,.png,.webp,.gif,.pdf,.zip">
+
+            <button type="submit" class="btn btn-danger btn-soft w-100">
+              ✅ Submit Response
+            </button>
+          </form>
+        {% else %}
+          <div class="alert alert-info mt-3">
+            ✅ You opened this dispute. Waiting for the other party response.
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+  {% endif %}
+
+
+
+  <!-- CONTACT -->
+  {% if booking.status != "WFH_CANCELLED" %}
+    <div class="glass-card mb-3">
+      <div class="card-body">
+
+        <div class="section-title">
+          <h6>📞 Contact Job Giver</h6>
+          <span class="pill">Support</span>
+        </div>
+
+        {% if provider and provider.phone %}
+          <a href="tel:{{ provider.phone }}" class="btn btn-success btn-soft w-100">
+            📞 Call {{ provider.name }}
+          </a>
+        {% else %}
+          <span class="text-muted">Phone number not available</span>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+
+</div>
+
+<!-- LIVE STATUS POLLING -->
+<script>
+const bookingId = {{ booking.id }};
+let stopped = false;
+
+async function pollBookingStatus() {
+  if (stopped) return;
+
+  try {
+    const res = await fetch(`/wfh/booking/${bookingId}/status`);
+    if (!res.ok) return;
+
+    const data = await res.json();
+
+    const el = document.getElementById("booking-status");
+    if (el) el.innerText = data.status;
+
+    // ✅ Stop polling when completed/cancelled - DO NOT reload again
+    if (["WFH_CANCELLED", "WFH_COMPLETED", "WFH_DISPUTED"].includes(data.status)) {
+      stopped = true;
+      clearInterval(window.__poller);
+      clearInterval(window.__uiRefresher)
+
+      // Optional: show a nice message
+      if (data.status === "WFH_COMPLETED") {
+        console.log("Job completed. Polling stopped.");
+      }
+    }
+
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+window.__poller = setInterval(pollBookingStatus, 3000);
+pollBookingStatus();
+</script>
+<script>
+async function refreshUISections() {
+  if (stopped) return;
+
+  try {
+    // ✅ fetch the FULL booking page HTML
+    const res = await fetch(`/wfh/booking/${bookingId}?partial=1`, {
+      headers: { "X-UI-REFRESH": "1" }
+    });
+
+    if (!res.ok) return;
+
+    const html = await res.text();
+    const doc = new DOMParser().parseFromString(html, "text/html");
+
+    // ✅ Refresh Submitted Work timeline
+    const newWork = doc.querySelector("#submittedWork");
+    const oldWork = document.querySelector("#submittedWork");
+
+    if (newWork && oldWork) {
+      oldWork.innerHTML = newWork.innerHTML;
+    }
+
+    // ✅ Refresh Dispute Center
+    const newDispute = doc.querySelector("#disputeCenter");
+    const oldDispute = document.querySelector("#disputeCenter");
+
+    if (newDispute && oldDispute) {
+      oldDispute.innerHTML = newDispute.innerHTML;
+    }
+
+  } catch (err) {
+    console.log("UI Refresh Error:", err);
+  }
+}
+
+// ✅ Update UI every 3 seconds
+window.__uiRefresher = setInterval(refreshUISections, 3000);
+refreshUISections();
+</script>
+
+<script>
+  // ✅ If any hash navigation happens, don't create extra history entries
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener("click", (e) => {
+      const id = link.getAttribute("href").slice(1);
+      const target = document.getElementById(id);
+      if (!target) return;
+
+      e.preventDefault();
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+
+      history.replaceState(null, "", location.pathname + location.search + "#" + id);
+    });
+  });
+
+  // ✅ When user presses back, remove hash once (avoid multiple back presses)
+  window.addEventListener("popstate", () => {
+    if (location.hash) {
+      history.replaceState(null, "", location.pathname + location.search);
+    }
+  });
+</script>
+
+<script>
+document.addEventListener("submit", async function (e) {
+  const form = e.target;
+  if (!form.classList.contains("ajax-form")) return;
+
+  e.preventDefault();
+
+  const confirmMsg = form.dataset.confirm;
+  if (confirmMsg) {
+    const ok = confirm(confirmMsg);
+    if (!ok) return;
+  }
+
+  const url = form.action;
+  const method = (form.method || "POST").toUpperCase();
+
+  const btn = form.querySelector("button[type='submit']");
+  if (btn) {
+    btn.disabled = true;
+    btn.dataset.oldText = btn.innerText;
+    btn.innerText = "Processing...";
+  }
+
+  try {
+    const formData = new FormData(form);
+
+    const res = await fetch(url, {
+      method: method,
+      headers: { "X-Requested-With": "XMLHttpRequest" },
+      body: formData
+    });
+
+    if (!res.ok) {
+      const errText = await res.text();
+      console.error("Request failed:", errText);
+      alert("Action failed. Please try again.");
+      return;
+    }
+
+    // ✅ If backend sends redirect, follow it
+    if (res.redirected) {
+      window.location.href = res.url;
+      return;
+    }
+
+    // ✅ Refresh UI blocks
+    if (typeof refreshUISections === "function") {
+      await refreshUISections();
+    }
+
+  } catch (err) {
+    console.error(err);
+    alert("Network error. Try again.");
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerText = btn.dataset.oldText || "Submit";
+    }
+  }
+});
+</script>
+
+
+</body>
+</html>

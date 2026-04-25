@@ -1,0 +1,381 @@
+ :root{
+      --brand1:#0d6efd;
+      --brand2:#00b4ff;
+      --shadow: 0 12px 35px rgba(0,0,0,.08);
+      --shadow2: 0 22px 60px rgba(0,0,0,.12);
+      --radius: 18px;
+      --text: rgba(0,0,0,.82);
+      --muted: rgba(0,0,0,.55);
+    }
+
+    body{
+      background:
+        radial-gradient(900px 500px at 15% 10%, rgba(13,110,253,.14), transparent),
+        radial-gradient(900px 550px at 85% 20%, rgba(0,180,255,.14), transparent),
+        linear-gradient(180deg, #f7f9ff, #f3f7ff);
+      min-height: 100vh;
+      color: var(--text);
+    }
+
+    .page-wrap{
+      max-width: 780px;
+      margin: 18px auto 70px;
+      padding: 0 14px;
+    }
+
+    /* HERO HEADER */
+    .hero{
+      background: linear-gradient(135deg, var(--brand1), var(--brand2));
+      border-radius: 22px;
+      padding: 18px;
+      color: #fff;
+      box-shadow: var(--shadow2);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:-70px -70px auto auto;
+      width: 260px;
+      height: 260px;
+      background: rgba(255,255,255,.18);
+      border-radius: 999px;
+      transform: rotate(15deg);
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      left:-80px;
+      bottom:-80px;
+      width: 280px;
+      height: 280px;
+      background: rgba(255,255,255,.10);
+      border-radius: 999px;
+    }
+
+    .hero-title{
+      font-weight: 900;
+      margin: 0;
+      font-size: 1.25rem;
+      letter-spacing: .2px;
+    }
+    .hero-sub{
+      opacity: .92;
+      font-size: .92rem;
+      margin-top: 4px;
+      line-height: 1.25;
+    }
+
+    .hero-pill{
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.25);
+      padding: 8px 12px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .hero-meta{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .meta-box{
+      flex: 1;
+      min-width: 160px;
+      background: rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 16px;
+      padding: 12px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .meta-box .label{ font-size: .75rem; opacity: .92; }
+    .meta-box .value{ font-size: 1.05rem; font-weight: 900; margin-top: 4px; }
+
+    /* Glass cards */
+    .glass-card{
+      background: rgba(255,255,255,.82);
+      border: 1px solid rgba(0,0,0,.06);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .section-title{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .section-title h6{
+      margin: 0;
+      font-weight: 900;
+      letter-spacing: .2px;
+    }
+
+    .pill{
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 900;
+      font-size: .78rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(0,0,0,.06);
+      background: rgba(255,255,255,.65);
+      color: #111;
+      white-space: nowrap;
+    }
+
+    /* Status Pills */
+    .status-pill{
+      color: #fff;
+      border: none;
+    }
+    .status-blue{ background: rgba(13,110,253,.95); }
+    .status-yellow{ background: rgba(255,193,7,.98); color: #1b1b1b; }
+    .status-red{ background: rgba(220,53,69,.95); }
+    .status-green{ background: rgba(25,135,84,.95); }
+    .status-gray{ background: rgba(108,117,125,.95); }
+
+    .desc-box{
+      background: rgba(13,110,253,.05);
+      border: 1px solid rgba(13,110,253,.12);
+      border-radius: 16px;
+      padding: 12px;
+      color: rgba(0,0,0,.78);
+    }
+
+    /* Update cards */
+    .update-card{
+      border: 1px solid rgba(0,0,0,.07);
+      background: rgba(255,255,255,.76);
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 12px;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .update-card:hover{
+      transform: translateY(-2px);
+      box-shadow: var(--shadow2);
+    }
+
+    .update-header{
+      display:flex;
+      justify-content: space-between;
+      align-items:center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .update-header strong{ font-weight: 900; }
+
+    /* Buttons */
+    .btn-soft{
+      border-radius: 14px !important;
+      font-weight: 900;
+      padding: 10px 14px;
+      box-shadow: 0 10px 22px rgba(0,0,0,.06);
+    }
+
+    /* Better inputs */
+    textarea.form-control,
+    input.form-control,
+    select.form-select{
+      border-radius: 14px !important;
+      border: 1px solid rgba(0,0,0,.08);
+      box-shadow: none !important;
+    }
+    textarea.form-control:focus,
+    input.form-control:focus,
+    select.form-select:focus{
+      border-color: rgba(13,110,253,.40) !important;
+    }
+
+    /* Smooth appear */
+    .fade-in{
+      animation: fadeIn .18s ease;
+    }
+    @keyframes fadeIn{
+      from{ opacity: 0; transform: translateY(6px); }
+      to{ opacity: 1; transform: translateY(0); }
+    }
+
+    /* ================= MOBILE COMPACT FIX ================= */
+    @media (max-width: 576px){
+
+      .page-wrap{
+        margin: 12px auto 45px;
+        padding: 0 12px;
+      }
+
+      .hero{
+        padding: 14px;
+        border-radius: 18px;
+      }
+
+      .hero-title{
+        font-size: 1.1rem;
+      }
+
+      .hero-sub{
+        font-size: .86rem;
+      }
+
+      .hero-pill{
+        padding: 6px 10px;
+        font-size: .78rem;
+        gap: 6px;
+      }
+
+      /* ✅ Clean 2x2 meta grid on mobile */
+      .hero-meta{
+        margin-top: 10px;
+        gap: 10px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .meta-box{
+        min-width: 0;
+        padding: 10px;
+        border-radius: 14px;
+      }
+
+      .meta-box .label{
+        font-size: .68rem;
+      }
+
+      .meta-box .value{
+        font-size: .92rem;
+      }
+
+      .glass-card .card-body{
+        padding: 14px;
+      }
+
+      .section-title h6{
+        font-size: 1rem;
+      }
+
+      .pill{
+        font-size: .72rem;
+        padding: 5px 9px;
+      }
+
+      .alert{
+        padding: 10px 12px;
+        font-size: .92rem;
+        border-radius: 14px;
+      }
+
+      .update-card{
+        padding: 12px;
+        border-radius: 14px;
+      }
+
+      .btn-soft{
+        padding: 10px 12px;
+        font-size: .95rem;
+      }
+    }
+
+    /* ================= DARK MODE ================= */
+    [data-theme="dark"] body{
+      background:
+        radial-gradient(900px 500px at 15% 10%, rgba(59,130,246,.18), transparent),
+        radial-gradient(900px 550px at 85% 20%, rgba(14,165,233,.18), transparent),
+        linear-gradient(180deg, #020617, #020617);
+      color: #f9fafb;
+    }
+
+    /* Glass cards */
+    [data-theme="dark"] .glass-card,
+    [data-theme="dark"] .update-card{
+      background: rgba(2,6,23,.9) !important;
+      border-color: #1e293b !important;
+      color: #f9fafb !important;
+    }
+
+    /* Meta boxes */
+    [data-theme="dark"] .meta-box{
+      background: rgba(255,255,255,.06) !important;
+      border-color: #1e293b !important;
+    }
+
+    /* Section text */
+    [data-theme="dark"] .section-title h6,
+    [data-theme="dark"] .hero-title{
+      color: #f9fafb !important;
+    }
+
+    [data-theme="dark"] .hero-sub{
+      color: #cbd5f5 !important;
+    }
+
+    /* Description box */
+    [data-theme="dark"] .desc-box{
+      background: rgba(59,130,246,.08) !important;
+      border-color: rgba(59,130,246,.25) !important;
+      color: #e5e7eb !important;
+    }
+
+    /* Pills */
+    [data-theme="dark"] .pill{
+      background: rgba(255,255,255,.06) !important;
+      border-color: #1e293b !important;
+      color: #fff !important;
+    }
+
+    /* Forms */
+    [data-theme="dark"] input,
+    [data-theme="dark"] textarea,
+    [data-theme="dark"] select{
+      background: #020617 !important;
+      color: #fff !important;
+      border: 1px solid #334155 !important;
+    }
+
+    [data-theme="dark"] input::placeholder,
+    [data-theme="dark"] textarea::placeholder{
+      color: #64748b !important;
+    }
+
+    /* Alerts */
+    [data-theme="dark"] .alert{
+      background: rgba(255,255,255,.04) !important;
+      color: #f9fafb !important;
+      border-color: #1e293b !important;
+    }
+
+    /* Status badge */
+    [data-theme="dark"] .badge.bg-light{
+      background: #1e293b !important;
+      color: #fff !important;
+    }
+
+    /* Buttons */
+    [data-theme="dark"] .btn-outline-primary,
+    [data-theme="dark"] .btn-outline-danger{
+      color: #fff !important;
+      border-color: #475569 !important;
+    }
+
+    [data-theme="dark"] .btn-outline-primary:hover,
+    [data-theme="dark"] .btn-outline-danger:hover{
+      background: rgba(255,255,255,.08) !important;
+    }
+
+    /* Update cards */
+    [data-theme="dark"] .update-card:hover{
+      box-shadow: 0 20px 50px rgba(0,0,0,.6) !important;
+    }

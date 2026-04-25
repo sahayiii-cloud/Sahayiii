@@ -1,0 +1,326 @@
+  /* Star rating UI inside modal */
+      .star-rating {
+        display: inline-flex;
+        gap: 4px;
+      }
+      .star-rating .star-btn {
+        border: none;
+        background: none;
+        padding: 0 2px;
+        font-size: 1.9rem;
+        line-height: 1;
+        cursor: pointer;
+        color: #d1d5db;          /* gray */
+        transition: color 0.15s ease-out, transform 0.08s ease-out;
+      }
+      .star-rating .star-btn.active {
+        color: #facc15;          /* yellow */
+        transform: translateY(-1px);
+      }
+      .star-rating .star-btn:focus {
+        outline: none;
+      }
+
+      /* Ratings & reviews styling */
+      .review-list {
+        max-height: 320px;           /* area is scrollable if many reviews */
+        overflow-y: auto;
+        padding-right: .25rem;
+      }
+
+      .review-item {
+        display: flex;
+        gap: 0.75rem;
+        padding: 0.75rem 0.85rem;
+        border-radius: 12px;
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        margin-bottom: 0.6rem;
+      }
+
+      .review-score {
+        min-width: 46px;
+        height: 46px;
+        border-radius: 999px;
+        background: linear-gradient(135deg,#f97316,#ea580c);
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+      .review-score small {
+        font-size: 0.7rem;
+        opacity: 0.9;
+      }
+
+      .review-meta {
+        font-size: 0.8rem;
+        color: #6b7280;
+        margin-bottom: 0.15rem;
+      }
+
+      .review-comment {
+        font-size: 0.9rem;
+        color: #111827;
+      }
+
+      body.bg-light {
+        background: radial-gradient(circle at top left, #fef3c7 0, #e0f2fe 40%, #eef2ff 100%);
+      }
+
+      .profile-photo {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid rgba(255,255,255,0.9);
+        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.35);
+      }
+
+      .skill-badge { margin: 2px; }
+
+      .carousel-item img, .carousel-item video {
+        max-height: 500px;
+        object-fit: contain;
+      }
+
+      /* Profile hero card */
+      .profile-hero-card {
+        border-radius: 18px;
+        overflow: hidden;
+        border: 0;
+      }
+      .profile-hero-left {
+        background: radial-gradient(circle at 10% 20%, #1d4ed8 0, #2563eb 35%, #0f172a 100%);
+        color: #fff;
+        text-align: center;
+        padding: 2.2rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .profile-hero-left h2 {
+        font-size: 1.4rem;
+        margin-top: 0.75rem;
+        margin-bottom: 0.25rem;
+      }
+      .rating-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(15,23,42,0.55);
+        color: #fefce8;
+        font-size: 0.85rem;
+        margin-top: 0.35rem;
+      }
+      .rating-pill.empty {
+        background: rgba(15,23,42,0.3);
+      }
+      .rating-pill span.small {
+        opacity: 0.9;
+      }
+
+      .tag-pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        background: #eff6ff;
+        color: #1e293b;
+        margin-right: 6px;
+        margin-bottom: 4px;
+      }
+
+      .stat-chip {
+        display: inline-flex;
+        flex-direction: column;
+        padding: 6px 12px;
+        border-radius: 12px;
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        font-size: 0.8rem;
+        min-width: 120px;
+      }
+      .stat-chip .label {
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        color: #9ca3af;
+        font-size: 0.7rem;
+      }
+      .stat-chip .value {
+        color: #111827;
+        font-weight: 600;
+      }
+
+      /* Top section navigation */
+      .profile-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+      .profile-nav a {
+        font-size: 0.85rem;
+        padding: 6px 12px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        text-decoration: none;
+        color: #4b5563;
+        background: rgba(255,255,255,0.7);
+        backdrop-filter: blur(8px);
+      }
+      .profile-nav a.active,
+      .profile-nav a:hover {
+        color: #111827;
+        border-color: #3b82f6;
+        background: #dbeafe;
+      }
+
+      /* Floating call card styles (unchanged from your version) */
+      #callFloatingCard {
+        display: none;
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        z-index: 2100;
+        width: 320px;
+        border-radius: 12px;
+      }
+      #callFloatingCard .card {
+        border-radius: 12px;
+      }
+      #callFloatingCard .small-muted {
+        font-size: 0.85rem;
+        color: #6c757d;
+      }
+      #callFloatingCard .end-call-btn {
+        align-self: center;
+        height: 34px;
+        padding: 0.25rem 0.6rem;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      @media (max-width: 767.98px) {
+        .profile-hero-left {
+          padding: 1.75rem 1rem;
+        }
+        .profile-photo {
+          width: 120px;
+          height: 120px;
+        }
+      }
+
+      /* ============================
+         DARK MODE FIX - PROFILE PAGE
+         ============================ */
+
+      html[data-theme="dark"] body {
+        background: radial-gradient(circle at top left, #020617, #020617 40%, #000814 100%) !important;
+        color: #f8fafc !important;
+      }
+
+      /* Main cards */
+      html[data-theme="dark"] .card {
+        background: #0b1220 !important;
+        border: 1px solid #1e293b !important;
+        color: #f8fafc !important;
+      }
+
+      /* Profile left hero */
+      html[data-theme="dark"] .profile-hero-left {
+        background: radial-gradient(circle at 10% 20%, #020617 0, #0b1220 50%, #000814 100%) !important;
+        color: #ffffff !important;
+      }
+
+      /* Text */
+      html[data-theme="dark"] p,
+      html[data-theme="dark"] span,
+      html[data-theme="dark"] div,
+      html[data-theme="dark"] h1,
+      html[data-theme="dark"] h2,
+      html[data-theme="dark"] h3,
+      html[data-theme="dark"] h4,
+      html[data-theme="dark"] h5,
+      html[data-theme="dark"] h6 {
+        color: #f8fafc !important;
+      }
+
+      /* About / Review comments */
+      html[data-theme="dark"] .review-comment,
+      html[data-theme="dark"] .review-meta {
+        color: #e5e7eb !important;
+      }
+
+      /* Review cards */
+      html[data-theme="dark"] .review-item {
+        background: #020617 !important;
+        border: 1px solid #1e293b !important;
+      }
+
+      /* Pills / tags */
+      html[data-theme="dark"] .tag-pill,
+      html[data-theme="dark"] .stat-chip {
+        background: #020617 !important;
+        border: 1px solid #1e293b !important;
+        color: #f8fafc !important;
+      }
+
+      /* Navigation pills */
+      html[data-theme="dark"] .profile-nav a {
+        background: #020617 !important;
+        border: 1px solid #1e293b !important;
+        color: #94a3b8 !important;
+      }
+
+      html[data-theme="dark"] .profile-nav a.active,
+      html[data-theme="dark"] .profile-nav a:hover {
+        background: #0b1220 !important;
+        color: #ffffff !important;
+        border-color: #38bdf8 !important;
+      }
+
+      /* Inputs */
+      html[data-theme="dark"] input,
+      html[data-theme="dark"] textarea {
+        background: #020617 !important;
+        color: #ffffff !important;
+        border: 1px solid #1e293b !important;
+      }
+
+      /* Modal */
+      html[data-theme="dark"] .modal-content {
+        background: #0b1220 !important;
+        color: #ffffff !important;
+        border: 1px solid #1e293b !important;
+      }
+
+      /* Floating call card */
+      html[data-theme="dark"] #callFloatingCard .card {
+        background: #0b1220 !important;
+        color: #ffffff !important;
+        border: 1px solid #1e293b !important;
+      }
+
+      /* Negotiation popup */
+      html[data-theme="dark"] #neg-overlay > div {
+        background: #0b1220 !important;
+        color: #ffffff !important;
+        border: 1px solid #1e293b !important;
+      }
+      /* Fix Bootstrap light badge in dark mode */
+      html[data-theme="dark"] .badge.text-bg-light {
+        background: #020617 !important;
+        color: #ffffff !important;
+        border: 1px solid #1e293b !important;
+      }
