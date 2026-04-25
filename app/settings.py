@@ -29,10 +29,10 @@ class Settings:
     # App secrets and config
     SECRET_KEY: str = os.getenv("SECRET_KEY", "change-me")  # MUST be changed in prod
     FERNET_KEY: str = os.getenv("FERNET_KEY")
-    DATABASE_URL: str = os.getenv(
-        "DATABASE_URL",
-        "postgresql+psycopg://postgres:Joe72022%40@127.0.0.1:5432/sahayidb"
-    )
+    DATABASE_URL: str = os.getenv("DATABASE_URL")
+
+    if not DATABASE_URL:
+        raise RuntimeError("DATABASE_URL is not set")
 
     # Razorpay (same keys you already use for the first payment)
     RAZORPAY_KEY_ID: str = os.getenv("RAZORPAY_KEY_ID", "")
